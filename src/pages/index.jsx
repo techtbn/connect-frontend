@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { faLockAlt } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Avatar from '@mui/material/Avatar';
@@ -11,10 +12,9 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { userContext } from 'contexts/Auth';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useLinkedIn } from 'react-linkedin-login-oauth2';
 import linkedin from 'react-linkedin-login-oauth2/assets/linkedin.png';
-import { apiPost } from 'services/api';
 
 import { BASE_PATH } from '../constants/site';
 
@@ -82,7 +82,7 @@ const SignInSide = () => {
             <FontAwesomeIcon icon={faLockAlt} />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Login
           </Typography>
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
             <TextField
@@ -118,7 +118,7 @@ const SignInSide = () => {
             <Grid container>
 
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/register" >
                   Don't have an account? Sign Up
                 </Link>
               </Grid>

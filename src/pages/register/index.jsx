@@ -1,32 +1,35 @@
-import { faUser } from '@fortawesome/pro-solid-svg-icons';
+import { faEye, faEyeSlash, faUser } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { userContext } from 'contexts/Auth';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 
 const Register = () => {
   const [disabled, setDisabled] = useState(false);
-  const router = useRouter();
-  const { isAuth, login } = useContext(userContext);
+  const [values, setValues] = useState({
+    showPassword: false
+  });
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = {
-      email: event.target.email.value,
-      password: event.target.password.value
-    };
-    console.log(data);
-    login(data, router, setDisabled);
+  const router = useRouter();
+  const { register } = useContext(userContext);
+
+  const handleChange = (field, val) => {
+    setValues({ ...values, [field]: val });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    register(values, router, setDisabled);
   };
 
   return (
@@ -65,21 +68,61 @@ const Register = () => {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
+              value={values.email}
+              onChange={(e) => handleChange('email', e.target.value)}
               name="email"
-              autoComplete="email"
-              autoFocus
+              label="Email"
+              type="email"
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="password"
+              value={values.first_name}
+              onChange={(e) => handleChange('first_name', e.target.value)}
+              name="first_name"
+              label="First Name"
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              value={values.last_name}
+              onChange={(e) => handleChange('last_name', e.target.value)}
+              name="last_name"
+              label="Last Name"
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              value={values.org}
+              onChange={(e) => handleChange('org', e.target.value)}
+              name="org"
+              label="Organization"
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password1"
               label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
+              type={values.showPassword ? '' : 'password'}
+              value={values.password1}
+              onChange={(e) => handleChange('password1', e.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => handleChange('showPassword', !values.showPassword)}
+                      onMouseDown={(e) => e.preventDefault()}
+                      edge="end"
+                    >
+                      <FontAwesomeIcon icon={values.showPassword ? faEye : faEyeSlash} />
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
             />
             <Button
               type="submit"
@@ -89,13 +132,12 @@ const Register = () => {
               sx={{ mt: 3, mb: 2 }}
               disabled={disabled}
             >
-              Sign In
+              Register
             </Button>
             <Grid container>
-
               <Grid item>
-                <Link href="#" variant="body2">
-                  Don't have an account? Sign Up
+                <Link href="/" variant="body2">
+                  Back to Login
                 </Link>
               </Grid>
             </Grid>

@@ -11,11 +11,11 @@ import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import MenuDropdown from 'components/MenuDropdown';
 import { userContext } from 'contexts/Auth';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
-import MenuDropdown from 'components/MenuDropdown';
 
 const pages = [
   {
@@ -25,6 +25,10 @@ const pages = [
   }, {
     name: 'Opportunities',
     link: '/opportunities',
+    type: 'single'
+  }, {
+    name: 'Engagements',
+    link: '/engagements',
     type: 'single'
   }, {
     name: 'Dreams',
@@ -126,14 +130,14 @@ const NavBar = () => {
             >
               {pages.map((page) => (
                 page.type === 'single'
-                ? (
-                  <Link href={page.link}>
-                  <MenuItem key={page.link}>
-                    <Typography textAlign="center">{page.name}</Typography>
-                  </MenuItem>
-                </Link>
-                )
-                : null
+                  ? (
+                    <Link href={page.link}>
+                      <MenuItem key={page.link}>
+                        <Typography textAlign="center">{page.name}</Typography>
+                      </MenuItem>
+                    </Link>
+                  )
+                  : null
               ))}
             </Menu>
           </Box>
@@ -159,18 +163,20 @@ const NavBar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               page.type === 'single'
-              ? (
-                <Link href={page.link}>
-                <Button
-                  key={page.link}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, px: 2, color: 'white', display: 'block' }}
-                >
-                  {page.name}
-                </Button>
-              </Link>
-              )
-              : <MenuDropdown page={page} />
+                ? (
+                  <Link href={page.link}>
+                    <Button
+                      key={page.link}
+                      onClick={handleCloseNavMenu}
+                      sx={{
+                        my: 2, px: 2, color: 'white', display: 'block'
+                      }}
+                    >
+                      {page.name}
+                    </Button>
+                  </Link>
+                )
+                : <MenuDropdown page={page} />
             ))}
           </Box>
 

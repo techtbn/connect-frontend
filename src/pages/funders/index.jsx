@@ -73,7 +73,6 @@ const FundersList = () => {
               required
               fullWidth
               label="Search Funders"
-              name="misson"
               autoFocus
               value={search}
               onChange={(e) => setSearch(e.target.value)}

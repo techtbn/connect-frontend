@@ -104,3 +104,15 @@ footer {
   padding-top: 32px;
   border-top: thin solid rgba(0, 0, 0, 0.12);
 }
+
+.MuiCardContent-root:last-child {
+  padding-bottom: 16px;
+}
+
+.MuiButtonBase-root .MuiBadge-badge {
+  border: 1px solid #1976d2;
+  background-color: white;
+  color: black;
+  right: -21px;
+  top: -6px
+}

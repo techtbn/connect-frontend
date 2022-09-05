@@ -4,9 +4,9 @@ import { BASE_PATH } from 'constants/site';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useLocalStorage } from 'react-use';
-import { apiGet } from 'services/api';
-import useSWR from 'swr';
 import toastError from 'utility/toastErrors';
+
+const short = require('short-uuid');
 
 const userContext = React.createContext({ user: {} });
 
@@ -82,10 +82,10 @@ const UserProvider = ({ children }) => {
     setDisabled(true);
     try {
       const nformData = { ...formData };
-      // nformData.username = short.generate();
+      nformData.username = short.generate();
       nformData.password2 = formData.password1;
       await axios.post(`${BASE_PATH}/register/`, nformData);
-      router.push('/accounts/login');
+      router.push('/');
       toast.success('Registration successful. Please proceed to login. An email has been sent to your verify your account!');
     } catch (error) {
       setDisabled(false);
@@ -94,7 +94,7 @@ const UserProvider = ({ children }) => {
   };
 
   const isAuth = authToken !== '';
-  const isVerified = user.uprofile.email_verified;
+  const isVerified = true;
 
   return (
     <userContext.Provider value={{

@@ -40,9 +40,9 @@ const SelectFilter = (props) => {
         {olist.map((item) => (
           <MenuItem key={item.value} value={item.value}>
             <Checkbox checked={opts.includes(item.value)} />
-            <ListItemText primary={item.label} />
+            <ListItemText primary={item.label} secondary={item.extra || null} />
             {circles
-              ?<FontAwesomeIcon icon={faCircle} className="filter-circle" style={{ color: item.color }} />
+              ? <FontAwesomeIcon icon={faCircle} className="ml-4 filter-circle" style={{ color: item.color }} />
               : null}
           </MenuItem>
         ))}

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { faExclamationTriangle, faSearch } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Divider from '@mui/material/Divider';

@@ -34,12 +34,13 @@ const OpportunityView = () => {
   }
 
   const jformat = qs.stringify({
-    opt: id
+    model: 'opportunity',
+    object_id: id
   });
 
   let comments = [];
   const commsQuery = useSWR(
-    id ? ['comments', id] : null,
+    id ? ['comments-opps', id] : null,
     () => apiList('/comments/', jformat, authToken)
   );
 
@@ -90,7 +91,12 @@ const OpportunityView = () => {
               spacing={2}
             >
               {comments.map((comm) => (
-                <CommentCard comm={comm} id={id} />
+                <CommentCard
+                  comm={comm}
+                  model="opportunity"
+                  objId={id}
+                  mutation={['comments-opps', id]}
+                />
               ))}
             </Masonry>
           </>
@@ -112,7 +118,13 @@ const OpportunityView = () => {
           </div>
         )}
 
-      <CommentModal optId={id} visible={visible} setVisible={setVisible} />
+      <CommentModal
+        model="opportunity"
+        objId={id}
+        visible={visible}
+        setVisible={setVisible}
+        mutation={['comments-opps', id]}
+      />
     </MainLayout>
   );
 };

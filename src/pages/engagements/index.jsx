@@ -1,14 +1,16 @@
+/* eslint-disable */
 import { faExclamationTriangle, faSearch } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import IndividualCard from 'components/IndividualCard';
+import EngageCard from 'components/EngageCard';
+import EngageDrawer from 'components/EngageDrawer';
 import MainLayout from 'components/MainLayout';
 import SelectFilter from 'components/SelectFilter';
-import { individualTypes } from 'configs/individuals';
 import { userContext } from 'contexts/Auth';
 import { useContext, useState } from 'react';
 import { apiList } from 'services/api';
@@ -17,60 +19,44 @@ import { useDebounce } from 'use-debounce';
 
 const qs = require('qs');
 
-const FundersList = () => {
-  const [extypes, setExtypes] = useState([]);
-  const [commitment, setCommitment] = useState([]);
+const EngagementView = () => {
+  const [engage, setEngage] = useState(null);
+
   const [search, setSearch] = useState('');
   const [debSearch] = useDebounce(search, 1000);
 
   const { authToken } = useContext(userContext);
 
   const jformat = qs.stringify({
-    extypes,
-    commitment,
     search: debSearch
   }, { indices: false });
 
-  let indOpts = [];
-  const indsQuery = useSWR(
-    'industries',
-    () => apiList('/expertise/', '', authToken)
+  let comments = [];
+  const commentsQuery = useSWR(
+    ['comments', debSearch],
+    () => apiList('/comments/', '', authToken)
   );
 
-  if (indsQuery.data) {
-    indOpts = indsQuery.data.map((ind) => ({ label: ind.name, value: ind.slug }));
+  if (commentsQuery.data) {
+    comments = commentsQuery.data;
   }
 
-  let users = [];
-  const usersQuery = useSWR(
-    ['funders', extypes, commitment, debSearch],
-    () => apiList('/users/', jformat, authToken)
-  );
-
-  if (usersQuery.data) {
-    users = usersQuery.data;
-  }
   return (
     <MainLayout>
       <Typography className="mt-3" variant="h4" color="textPrimary" gutterBottom>
-        Individuals
+        Engagements
       </Typography>
       <Divider />
       <Grid container spacing={2}>
         <Grid container item xs={12} spacing={2} className="justify-end">
-          <Grid container item xs={12} md={3} className="mt-4" order={{ xs: 2, md: 1 }}>
-            <SelectFilter name="Commitment" olist={individualTypes} opts={commitment} setOpts={setCommitment} circles />
-          </Grid>
-          <Grid container item xs={12} md={3} className="mt-4" order={{ xs: 3, md: 2 }}>
-            <SelectFilter name="Expertise" olist={indOpts} opts={extypes} setOpts={setExtypes} />
-          </Grid>
-          <Grid container item xs={12} md={3} order={{ xs: 1, md: 3 }}>
+          <Grid container item xs={12} md={3}>
             <TextField
               margin="normal"
               size="small"
               required
               fullWidth
-              label="Search Individuals"
+              label="Search Funders"
+              name="misson"
               autoFocus
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -85,11 +71,11 @@ const FundersList = () => {
           </Grid>
         </Grid>
         <Grid className="test-cont" container item spacing={2}>
-          {users.length
+          {comments.length
             ? (
-              users.map((user) => (
-                <Grid container item xs={12} md={6}>
-                  <IndividualCard user={user} />
+              comments.map((comm) => (
+                <Grid container item key={comm.id}>
+                  <EngageCard comm={comm} setEngage={setEngage} />
                 </Grid>
               ))
             )
@@ -98,16 +84,18 @@ const FundersList = () => {
                 <Typography gutterBottom variant="h4" component="div">
                   <FontAwesomeIcon icon={faExclamationTriangle} size="2x" />
                   <br />
-                  No Individuals Found
+                  No Engagements
                 </Typography>
               </div>
             )}
 
         </Grid>
       </Grid>
-
+      {engage
+        ? <EngageDrawer engage={engage} setEngage={setEngage} />
+        : null}
     </MainLayout>
   );
 };
 
-export default FundersList;
+export default EngagementView;

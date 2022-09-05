@@ -12,18 +12,18 @@ import { apiPost } from 'services/api';
 import { useSWRConfig } from 'swr';
 
 const CommentCard = (props) => {
-  const { comm, id } = props;
+  const { comm, mutation } = props;
   const { authToken } = useContext(userContext);
 
   const { mutate } = useSWRConfig();
 
   const handleClick = async (action) => {
     const onSuccess = () => {
-      mutate(['comments', id]);
+      mutate(mutation);
     };
 
     const value = { action };
-    await apiPost(`/comments/${comm.id}/engage/`, value, authToken, onSuccess);
+    await apiPost(`/comments/${comm.uuid}/engage/`, value, authToken, onSuccess);
   };
 
   return (
@@ -64,7 +64,7 @@ const CommentCard = (props) => {
 };
 
 CommentCard.propTypes = {
-  id: PropTypes.number.isRequired,
+  mutation: PropTypes.instanceOf(Array).isRequired,
   comm: PropTypes.instanceOf(Object).isRequired
 };
 

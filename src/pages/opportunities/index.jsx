@@ -94,7 +94,7 @@ const OpportunityView = () => {
                 <Typography gutterBottom variant="h4" component="div">
                   <FontAwesomeIcon icon={faExclamationTriangle} size="2x" />
                   <br />
-                  No Funders Found
+                  No Opportunities Found
                 </Typography>
               </div>
             )}
