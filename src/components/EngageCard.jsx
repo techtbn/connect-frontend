@@ -67,9 +67,7 @@ const EngageCard = (props) => {
               <FontAwesomeIcon icon={faComments} />
             </Badge>
           </Button>
-
         </div>
-
       </CardContent>
     </Card>
 
