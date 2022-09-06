@@ -50,9 +50,6 @@ const EngageCard = (props) => {
               {comm.text}
             </Typography>
           </div>
-          <Divider
-            className="block md:hidden my-4 w-full"
-          />
           {/*
           <Divider className="hidden md:block mx-4 h-12" orientation="vertical" />
           <div className="basis-8/12 md:basis-2/12 ">
@@ -66,10 +63,9 @@ const EngageCard = (props) => {
             size="large"
             onClick={() => setEngage(comm)}
           >
-            {/*
-            <Badge badgeContent={20} color="secondary">
+            <Badge badgeContent={comm.mcount} invisible={!comm.mcount}color="secondary">
               <FontAwesomeIcon icon={faComments} />
-            </Badge> */}
+            </Badge>
           </Button>
 
         </div>

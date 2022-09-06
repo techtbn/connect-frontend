@@ -34,7 +34,7 @@ const EngagementView = () => {
   let comments = [];
   const commentsQuery = useSWR(
     ['comments', debSearch],
-    () => apiList('/comments/', '', authToken)
+    () => apiList('/comments/', jformat, authToken)
   );
 
   if (commentsQuery.data) {
@@ -55,8 +55,7 @@ const EngagementView = () => {
               size="small"
               required
               fullWidth
-              label="Search Funders"
-              name="misson"
+              label="Search Engagements"
               autoFocus
               value={search}
               onChange={(e) => setSearch(e.target.value)}
