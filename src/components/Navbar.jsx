@@ -131,7 +131,7 @@ const NavBar = () => {
               {pages.map((page) => (
                 page.type === 'single'
                   ? (
-                    <Link href={page.link}>
+                    <Link href={page.link} key={page.name}>
                       <MenuItem key={page.link}>
                         <Typography textAlign="center">{page.name}</Typography>
                       </MenuItem>
@@ -164,7 +164,7 @@ const NavBar = () => {
             {pages.map((page) => (
               page.type === 'single'
                 ? (
-                  <Link href={page.link}>
+                  <Link href={page.link} key={page.name}>
                     <Button
                       key={page.link}
                       onClick={handleCloseNavMenu}
@@ -176,14 +176,14 @@ const NavBar = () => {
                     </Button>
                   </Link>
                 )
-                : <MenuDropdown page={page} />
+                : <MenuDropdown page={page} key={page.name} />
             ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Profile & Settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Andrew Fam" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Ba" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
             <Menu

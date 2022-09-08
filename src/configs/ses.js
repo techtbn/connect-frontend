@@ -1,19 +1,50 @@
 const seTypes = [
   {
-    label: 'Charity / Non-Profit',
-    value: 'charity',
-    color: '#34d399'
+    name: 'Impact Only',
+    color: '#5cdbd3',
+    children: [
+      {
+        label: 'Grants',
+        value: 'impact-grants'
+      }, {
+        label: 'Grants & Trading Revenues',
+        value: 'impact-grants-revenues'
+      }
+    ]
   }, {
-    label: 'Impact 1st Revenue Generating SE',
-    value: 'rev-gen',
-    color: '#0f766e'
+    name: 'Impact First Revenue Generating',
+    color: '#1890ff',
+    children: [
+      {
+        label: 'Sustainable',
+        value: 'rev-gen-sustainable'
+      }, {
+        label: 'Profitable with Surplus',
+        value: 'rev-gen-surplus'
+      }
+    ]
   }, {
-    label: 'Fin 1st Socially Driven',
-    value: 'soc-drive',
-    color: '#06b6d4'
+    name: 'Finance First Socially Driven',
+    color: '#061178',
+    children: [
+      {
+        label: 'Impact Initiatives',
+        value: 'fin-first-initiatives'
+      }, {
+        label: 'Impact Embedded in Agenda',
+        value: 'fin-first-agenda'
+      }
+    ]
   }
 ];
 
-const seColorsMap = Object.fromEntries(seTypes.map((se) => [se.value, se.color]));
+const seColorsMap = {
+  'impact-grants': '#5cdbd3',
+  'impact-grants-revenues': '#5cdbd3',
+  'rev-gen-sustainable': '#1890ff',
+  'rev-gen-surplus': '#1890ff',
+  'fin-first-initiatives': '#061178',
+  'fin-first-agenda': '#061178'
+};
 
 export { seColorsMap, seTypes };

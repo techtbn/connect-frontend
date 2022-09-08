@@ -42,8 +42,6 @@ const CommentModal = (props) => {
     mutate(mutation);
   };
 
-  console.log(image);
-
   return (
     <Modal
       open={visible}

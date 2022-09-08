@@ -82,7 +82,6 @@ a {
 }
 
 .MuiInputLabel-root {
-  background: white;
   padding-left:4px;
   padding-right: 16px;
 }
@@ -115,4 +114,8 @@ footer {
   color: black;
   right: -21px;
   top: -6px
+}
+
+.filter-sel > .MuiFormLabel-root{
+  background-color: white;
 }

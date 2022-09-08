@@ -4,10 +4,12 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import ListItemText from '@mui/material/ListItemText';
+import ListSubheader from '@mui/material/ListSubheader';
 import MenuItem from '@mui/material/MenuItem';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Select from '@mui/material/Select';
 import PropTypes from 'prop-types';
+import { Fragment } from 'react';
 
 const SelectFilter = (props) => {
   const {
@@ -27,34 +29,29 @@ const SelectFilter = (props) => {
   const olistMap = Object.fromEntries(olist.map((ol) => [ol.value, ol.label]));
 
   return (
-    <FormControl variant="outlined" size="small" fullWidth>
-      <InputLabel
-        id="demo-simple-select-label"
-        shrink
-        width={500}
-      >
-        {name}
-      </InputLabel>
+    <FormControl fullWidth>
+      <InputLabel variant="outlined" shrink>{name}</InputLabel>
       <Select
-        labelWidth={500}
-        labelId="demo-simple-select-label"
         multiple
         value={opts}
         onChange={handleChange}
         input={<OutlinedInput label="Tag" />}
-        autoFocus
-        label={name}
-        shrink
         renderValue={(selected) => selected.map((sel) => olistMap[sel]).join(', ')}
+        size="small"
       >
-        {olist.map((item) => (
-          <MenuItem key={item.value} value={item.value}>
-            <Checkbox checked={opts.includes(item.value)} />
-            <ListItemText primary={item.label} secondary={item.extra || null} />
-            {circles
-              ? <FontAwesomeIcon icon={faCircle} className="ml-4 filter-circle" style={{ color: item.color }} />
-              : null}
-          </MenuItem>
+        {olist.map((group) => (
+          <Fragment key={group.name}>
+            <ListSubheader>{group.name}</ListSubheader>
+            {group.children.map((item) => (
+              <MenuItem key={item.value} value={item.value}>
+                <Checkbox checked={opts.includes(item.value)} />
+                <ListItemText primary={item.label} secondary={item.extra || null} />
+                {circles
+                  ? <FontAwesomeIcon icon={faCircle} className="ml-4 filter-circle" style={{ color: item.color }} />
+                  : null}
+              </MenuItem>
+            ))}
+          </Fragment>
         ))}
       </Select>
     </FormControl>

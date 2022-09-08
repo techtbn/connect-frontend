@@ -42,7 +42,6 @@ const SignInSide = () => {
       email: event.target.email.value,
       password: event.target.password.value
     };
-    console.log(data);
     login(data, router, setDisabled);
   };
 

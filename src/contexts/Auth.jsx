@@ -31,14 +31,17 @@ const UserProvider = ({ children }) => {
 
       const profileRes = await axios.get(`${BASE_PATH}/auth/user/`,
         { headers: { Authorization: `Token ${token}` } });
-      const { profileData } = profileRes;
+      const profileData = profileRes.data;
 
       setAuthToken(token);
       setUser(profileData);
       toast.success('Welcome!');
-      router.push('/home');
+      let url = '/home';
+      if (!profileData.initial) {
+        url = '/choices';
+      }
+      router.push(url);
     } catch (error) {
-      console.log(error);
       setDisabled(false);
       toastError(error);
     }

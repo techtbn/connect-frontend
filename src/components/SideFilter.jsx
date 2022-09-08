@@ -9,8 +9,9 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import ListSubheader from '@mui/material/ListSubheader';
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 const SideFilter = (props) => {
   const [mobile, setMobile] = useState(true);
@@ -60,33 +61,37 @@ const SideFilter = (props) => {
           ? (
             <>
               <Divider />
-              {olist.map((item, i) => (
-                <>
-                  <ListItem
-                    key={item.value}
-                    secondaryAction={(
-                      <IconButton edge="end" aria-label="comments">
-                        <FontAwesomeIcon icon={faCircle} className="filter-circle" style={{ color: item.color }} />
-                      </IconButton>
-
-                )}
-                    disablePadding
-                  >
-                    <ListItemButton>
-                      <ListItemIcon>
-                        <Checkbox
-                          edge="start"
-                          onChange={handleToggle(item.value)}
-                          checked={opts.includes(item.value)}
-                        />
-                      </ListItemIcon>
-                      <ListItemText primary={item.label} />
-                    </ListItemButton>
-                  </ListItem>
-                  {i !== olist.length - 1
-                    ? <Divider />
-                    : null}
-                </>
+              {olist.map((group) => (
+                <Fragment key={group.name}>
+                  <ListSubheader className="text-white" sx={{ backgroundColor: group.color }}>{group.name}</ListSubheader>
+                  {group.children.map((item, j) => (
+                    <Fragment key={item.value}>
+                      <ListItem
+                        key={item.value}
+                        secondaryAction={(
+                          <IconButton edge="end" aria-label="comments">
+                            <FontAwesomeIcon icon={faCircle} className="filter-circle" style={{ color: group.color }} />
+                          </IconButton>
+                        )}
+                        disablePadding
+                      >
+                        <ListItemButton>
+                          <ListItemIcon>
+                            <Checkbox
+                              edge="start"
+                              onChange={handleToggle(item.value)}
+                              checked={opts.includes(item.value)}
+                            />
+                          </ListItemIcon>
+                          <ListItemText primary={item.label} />
+                        </ListItemButton>
+                      </ListItem>
+                      {j !== group.children.length - 1
+                        ? <Divider />
+                        : null}
+                    </Fragment>
+                  ))}
+                </Fragment>
               ))}
             </>
           )
