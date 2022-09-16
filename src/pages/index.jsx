@@ -1,35 +1,29 @@
-/* eslint-disable */
-import { faLockAlt } from '@fortawesome/pro-solid-svg-icons';
+import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import axios from 'axios';
 import { userContext } from 'contexts/Auth';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 import { useLinkedIn } from 'react-linkedin-login-oauth2';
-import linkedin from 'react-linkedin-login-oauth2/assets/linkedin.png';
-
-import { BASE_PATH } from '../constants/site';
 
 const SignInSide = () => {
   const [disabled, setDisabled] = useState(false);
   const router = useRouter();
-  const { isAuth, login } = useContext(userContext);
+  const { login, loginWithLinkedIn } = useContext(userContext);
 
   const { linkedInLogin } = useLinkedIn({
     clientId: '86lrg0924nh0k2',
     redirectUri: `${typeof window === 'object' && window.location.origin}/linkedin`,
+    scope: 'r_liteprofile r_emailaddress',
     onSuccess: async (code) => {
-      const data = await axios.post(`${BASE_PATH}/auth/linkedin/`, { code });
-      console.log(data);
-      console.log('test');
+      loginWithLinkedIn({ router, code });
     },
     onError: (error) => {
       console.log(error);
@@ -77,12 +71,26 @@ const SignInSide = () => {
             alignItems: 'center'
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <FontAwesomeIcon icon={faLockAlt} />
-          </Avatar>
-          <Typography component="h1" variant="h5">
+          <img className="w-40 mb-8" src="/logo.png" alt="" />
+          <Typography component="h1" variant="h4">
             Login
           </Typography>
+          <Button
+            className="text-white px-4 my-4"
+            sx={{
+              '&:hover': {
+                backgroundColor: '#338ec1'
+              },
+              backgroundColor: '#0072b1'
+            }}
+            onClick={linkedInLogin}
+          >
+            <FontAwesomeIcon className="mr-2" icon={faLinkedin} />
+            Sign In with LinkedIn
+          </Button>
+
+          <Divider className="w-11/12">or</Divider>
+
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
             <TextField
               margin="normal"
@@ -115,19 +123,12 @@ const SignInSide = () => {
               Sign In
             </Button>
             <Grid container>
-
               <Grid item>
-                <Link href="/register" >
-                  Don't have an account? Sign Up
+                <Link href="/register">
+                  {'Don\'t have an account? Sign Up'}
                 </Link>
               </Grid>
             </Grid>
-            <img
-              onClick={linkedInLogin}
-              src={linkedin}
-              alt="Sign in with Linked In"
-              style={{ maxWidth: '180px', cursor: 'pointer' }}
-            />
 
             <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 5 }}>
               {'Copyright © '}

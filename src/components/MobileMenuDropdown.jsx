@@ -1,8 +1,7 @@
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/jsx-props-no-spreading */
-import { faAngleDown } from '@fortawesome/pro-solid-svg-icons';
+import { faAngleRight } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Button from '@mui/material/Button';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Divider from '@mui/material/Divider';
 import Grow from '@mui/material/Grow';
@@ -11,6 +10,7 @@ import MenuList from '@mui/material/MenuList';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
@@ -56,22 +56,23 @@ const MenuDropdown = (props) => {
 
   return (
     <Stack direction="row" spacing={2}>
-      <Button
-        className="text-white font-semibold"
+      <MenuItem
         ref={anchorRef}
+        className="flex items-center justify-between w-48"
+        key={page.link}
         onClick={handleToggle}
-        sx={{ my: 2, display: 'block' }}
       >
-        {page.name}
-        <FontAwesomeIcon className="ml-2" icon={faAngleDown} />
-      </Button>
+        <Typography>{page.name}</Typography>
+        <FontAwesomeIcon className="ml-4" icon={faAngleRight} />
+      </MenuItem>
       <Popper
+        className="z-50"
         open={open}
         anchorEl={anchorRef.current}
         role={undefined}
-        placement="bottom-start"
+        placement="right-start"
         transition
-        disablePortal
+        style={{ zIndex: 99999 }}
       >
         {({ TransitionProps, placement }) => (
           <Grow

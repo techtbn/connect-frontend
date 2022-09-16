@@ -58,15 +58,17 @@ const ChoicesPage = () => {
               Individual
               <br className="hidden md:block" />
               <span className="block md:hidden">&nbsp;</span>
-              Volunteer
+              Expertise
             </div>
           </Link>
           <Typography variant="h5" component="div">
             or
           </Typography>
-          <div className="choice-box w-full md:w-auto font-medium bg-cyan-500">
-            Funder
-          </div>
+          <Link href="/choices/funder">
+            <div className="choice-box w-full md:w-auto font-medium bg-cyan-500">
+              Funder
+            </div>
+          </Link>
           {/*
         <Typography variant="h5" component="div">
           or

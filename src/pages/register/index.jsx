@@ -1,6 +1,5 @@
-import { faEye, faEyeSlash, faUser } from '@fortawesome/pro-solid-svg-icons';
+import { faEye, faEyeSlash } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
@@ -57,11 +56,9 @@ const Register = () => {
             alignItems: 'center'
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <FontAwesomeIcon icon={faUser} />
-          </Avatar>
+          <img className="w-40 mb-8" src="/logo.png" alt="" />
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign up
           </Typography>
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
             <TextField

@@ -7,6 +7,7 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          <title>TBN Asia Impact Networking Board</title>
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
           <link href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500&family=Patua+One&display=swap" rel="stylesheet" />

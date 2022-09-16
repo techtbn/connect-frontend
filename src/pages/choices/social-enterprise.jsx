@@ -98,9 +98,7 @@ const SocialEnterprise = () => {
         <Box className="flex items-center justify-between">
           <div className="w-16 text-left">
             <Link href="/choices">
-              <>
-                <FontAwesomeIcon icon={faAngleLeft} size="xl" />
-              </>
+              <FontAwesomeIcon icon={faAngleLeft} size="xl" />
             </Link>
           </div>
           <Typography className="text-center" variant="h4" component="div">
@@ -122,6 +120,7 @@ const SocialEnterprise = () => {
             </Grid>
             <Grid container item xs={12} md={6}>
               <TextField
+                type="url"
                 required
                 fullWidth
                 label="Website"

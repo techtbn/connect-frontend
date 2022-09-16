@@ -1,4 +1,3 @@
-import AdbIcon from '@mui/icons-material/Adb';
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
@@ -12,6 +11,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import MenuDropdown from 'components/MenuDropdown';
+import MobileMenuDropdown from 'components/MobileMenuDropdown';
 import { userContext } from 'contexts/Auth';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -35,7 +35,7 @@ const pages = [
     link: '/dreams',
     type: 'single'
   }, {
-    name: 'Members',
+    name: 'Network',
     type: 'multi',
     children: [
       {
@@ -77,28 +77,16 @@ const NavBar = () => {
   };
 
   return (
-    <AppBar position="sticky">
+    <AppBar
+      clasName="app-bar"
+      position="sticky"
+      sx={{ backgroundColor: '#76801d' }}
+    >
       <Container maxWidth="lg">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none'
-            }}
-          >
-            LOGO
-          </Typography>
-
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 4 }}>
+            <img src="logo-white.png" className="w-20" alt="" />
+          </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -133,43 +121,28 @@ const NavBar = () => {
                   ? (
                     <Link href={page.link} key={page.name}>
                       <MenuItem key={page.link}>
-                        <Typography textAlign="center">{page.name}</Typography>
+                        <Typography>{page.name}</Typography>
                       </MenuItem>
                     </Link>
                   )
-                  : null
+                  : <MobileMenuDropdown page={page} key={page.name} />
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none'
-            }}
-          >
-            LOGO
-          </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            <img src="logo-white.png" className="w-20" alt="" />
+          </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               page.type === 'single'
                 ? (
                   <Link href={page.link} key={page.name}>
                     <Button
+                      className="text-white font-semibold"
                       key={page.link}
                       onClick={handleCloseNavMenu}
                       sx={{
-                        my: 2, px: 2, color: 'white', display: 'block'
+                        my: 2, px: 2, display: 'block'
                       }}
                     >
                       {page.name}

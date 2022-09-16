@@ -17,7 +17,7 @@ const Home = () => {
   return (
     <MainLayout>
       <Typography className="mt-3" variant="h4" color="textPrimary" gutterBottom>
-        {`Welcome ${user.first_name}`}
+        
       </Typography>
       <Divider />
       <Grid container spacing={2}>

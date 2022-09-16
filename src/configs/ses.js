@@ -19,8 +19,11 @@ const seTypes = [
         label: 'Sustainable',
         value: 'rev-gen-sustainable'
       }, {
-        label: 'Profitable with Surplus',
+        label: 'Profitable with Surplus Reinvested',
         value: 'rev-gen-surplus'
+      }, {
+        label: 'Able to Distribute Profits',
+        value: 'rev-gen-distribute-profits'
       }
     ]
   }, {

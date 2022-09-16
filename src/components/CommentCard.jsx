@@ -46,7 +46,7 @@ const CommentCard = (props) => {
                 ? `+${comm.likes.length}`
                 : null}
             </Button>
-            <Divider orientation="vertical" flexItem />
+            <Divider orientation="vertical" />
             <Button
               onClick={() => handleClick('dislikes')}
             >

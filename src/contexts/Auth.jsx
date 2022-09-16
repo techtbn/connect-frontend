@@ -47,6 +47,16 @@ const UserProvider = ({ children }) => {
     }
   };
 
+  const loginWithLinkedIn = async ({ router, code }) => {
+    const res = await axios.post(`${BASE_PATH}/auth/linkedin/oauth`, {
+      code
+    });
+    const { token } = res.data;
+    setAuthToken(token);
+    setUser(res.data.data);
+    router.push('/');
+  };
+
   const resetPassword = async (formData, setDisabled) => {
     setDisabled(true);
     try {
@@ -107,6 +117,7 @@ const UserProvider = ({ children }) => {
       authToken,
       mounted,
       login,
+      loginWithLinkedIn,
       logout,
       register,
       resetPassword,
