@@ -12,8 +12,8 @@ const userContext = React.createContext({ user: {} });
 
 const UserProvider = ({ children }) => {
   // User is the name of the "data" that gets stored in context
-  const baseUser = { first_name: '', uprofile: { email_verified: false } };
-  const [user, setUser] = useLocalStorage('user', baseUser);
+  const baseUser = { first_name: '', initial: false };
+  const [user, setUser] = useState(baseUser);
   const [authToken, setAuthToken] = useLocalStorage('tbnToken', '');
   const [mounted, setMounted] = useState(false);
 
@@ -28,19 +28,18 @@ const UserProvider = ({ children }) => {
       const res = await axios.post(`${BASE_PATH}/auth/login/`, values);
       const { data } = res;
       const token = data.key;
-
-      const profileRes = await axios.get(`${BASE_PATH}/auth/user/`,
-        { headers: { Authorization: `Token ${token}` } });
-      const profileData = profileRes.data;
-
       setAuthToken(token);
-      setUser(profileData);
-      toast.success('Welcome!');
-      let url = '/home';
-      if (!profileData.initial) {
-        url = '/choices';
-      }
-      router.push(url);
+      await axios.get(`${BASE_PATH}/auth/user/`,
+        { headers: { Authorization: `Token ${token}` } }).then((profileRes) => {
+        const profileData = profileRes.data;
+
+        setUser(profileData);
+        let url = '/choices';
+        if (profileData.initial) {
+          url = '/home';
+        }
+        router.push(url);
+      });
     } catch (error) {
       setDisabled(false);
       toastError(error);
@@ -107,12 +106,10 @@ const UserProvider = ({ children }) => {
   };
 
   const isAuth = authToken !== '';
-  const isVerified = true;
 
   return (
     <userContext.Provider value={{
       isAuth,
-      isVerified,
       user,
       authToken,
       mounted,

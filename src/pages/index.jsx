@@ -16,7 +16,9 @@ import { useLinkedIn } from 'react-linkedin-login-oauth2';
 const SignInSide = () => {
   const [disabled, setDisabled] = useState(false);
   const router = useRouter();
-  const { isAuth, login, loginWithLinkedIn } = useContext(userContext);
+  const {
+    isAuth, user, login, loginWithLinkedIn
+  } = useContext(userContext);
 
   const { linkedInLogin } = useLinkedIn({
     clientId: '86lrg0924nh0k2',
@@ -41,7 +43,10 @@ const SignInSide = () => {
 
   useEffect(() => {
     if (isAuth) {
-      router.push('/home');
+      if (user.initial) {
+        router.push('/home');
+      }
+      router.push('/choices');
     }
   }, [isAuth]);
 

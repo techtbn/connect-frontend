@@ -26,4 +26,8 @@ const individualTypesColorsMap = Object.fromEntries(
   individualTypes.map((it) => [it.value, it.color])
 );
 
-export { individualTypes, individualTypesColorsMap };
+const individualTypesLabelMap = Object.fromEntries(
+  individualTypes.map((it) => [it.value, it.label])
+);
+
+export { individualTypes, individualTypesColorsMap, individualTypesLabelMap };

@@ -20,7 +20,8 @@ const ConfCards = (props) => {
   const { otype } = props;
 
   const jformat = qs.stringify({
-    otype
+    otype,
+    limit: 6
   }, { indices: false });
 
   let opps = [];

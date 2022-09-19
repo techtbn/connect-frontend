@@ -10,6 +10,7 @@ import MainLayout from 'components/MainLayout';
 import SelectFilter from 'components/SelectFilter';
 import { fundingTypes } from 'configs/partners';
 import { userContext } from 'contexts/Auth';
+import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 import { apiList } from 'services/api';
 import useSWR from 'swr';
@@ -18,9 +19,12 @@ import { useDebounce } from 'use-debounce';
 const qs = require('qs');
 
 const FundersList = () => {
+  const router = useRouter();
+  const { name } = router.query;
+
   const [ftypes, setFtypes] = useState([]);
   const [industries, setIndustries] = useState([]);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState(name);
   const [debSearch] = useDebounce(search, 1000);
 
   const { authToken } = useContext(userContext);

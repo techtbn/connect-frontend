@@ -11,6 +11,7 @@ import MainLayout from 'components/MainLayout';
 import SelectFilter from 'components/SelectFilter';
 import { individualTypes } from 'configs/individuals';
 import { userContext } from 'contexts/Auth';
+import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 import { apiList } from 'services/api';
 import useSWR from 'swr';
@@ -19,10 +20,12 @@ import { useDebounce } from 'use-debounce';
 const qs = require('qs');
 
 const IndividualsList = () => {
+  const router = useRouter();
+  const { name } = router.query;
   const [indv, setIndv] = useState(null);
   const [extypes, setExtypes] = useState([]);
   const [commitment, setCommitment] = useState([]);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState(name);
   const [debSearch] = useDebounce(search, 1000);
 
   const { authToken } = useContext(userContext);
@@ -47,7 +50,7 @@ const IndividualsList = () => {
 
   let users = [];
   const usersQuery = useSWR(
-    ['funders', extypes, commitment, debSearch],
+    ['individuals', extypes, commitment, debSearch],
     () => apiList('/users/', jformat, authToken)
   );
 
