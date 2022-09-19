@@ -57,7 +57,7 @@ const MenuDropdown = (props) => {
   return (
     <Stack direction="row" spacing={2}>
       <Button
-        className="text-white font-semibold"
+        className="text-slate-800 font-semibold"
         ref={anchorRef}
         onClick={handleToggle}
         sx={{ my: 2, display: 'block' }}

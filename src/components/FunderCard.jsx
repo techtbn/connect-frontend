@@ -10,15 +10,14 @@ import PropTypes from 'prop-types';
 
 const FunderCard = (props) => {
   const { funder, indOptsMap } = props;
-
   return (
     <Card sx={{ display: 'flex' }} className="w-full">
       <CardMedia
         component="img"
         sx={{ width: 151 }}
-        image={`https://picsum.photos/400?random=${funder.name}`}
+        image={funder.logo ? funder.logo : `https://picsum.photos/400?random=${funder.uuid}`}
       />
-      <Box className="flex flex-col items-stretch">
+      <Box className="flex grow flex-col items-stretch">
         <CardContent sx={{ flex: '1 0 auto', pb: 1 }}>
           <Typography component="div" variant="h5">
             {funder.name}
@@ -42,9 +41,9 @@ const FunderCard = (props) => {
           </Typography>
         </CardContent>
         <Box
-          className="px-4 pb-4  text-right"
+          className="px-4 pb-4"
         >
-          <div className="float-right">
+          <div className="float-right text-right">
             <Typography component="div" className="flex items-center">
               <span>{funder.industries.map((ind) => indOptsMap[ind]).join(', ')}</span>
               <FontAwesomeIcon className="ml-2" icon={faBriefcase} size="xs" />

@@ -100,12 +100,12 @@ const Individual = () => {
                   <FormControlLabel
                     control={(
                       <Checkbox
-                        name={ex.id}
-                        checked={(values.expertise || []).includes(ex.id)}
+                        name={ex.slug}
+                        checked={(values.expertise || []).includes(ex.slug)}
                         onChange={(e) => handleChange('expertise',
                           e.target.checked
-                            ? [...(values.expertise || []), ex.id]
-                            : values.expertise.filter((vex) => vex !== ex.id))}
+                            ? [...(values.expertise || []), ex.slug]
+                            : values.expertise.filter((vex) => vex !== ex.slug))}
                       />
                     )}
                     label={ex.name}

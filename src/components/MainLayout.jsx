@@ -11,6 +11,7 @@ const MainLayout = (props) => {
       <Navbar />
       <Container
         id="main-cont"
+        className="mb-12"
         maxWidth="lg"
       >
         {children}

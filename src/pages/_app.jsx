@@ -1,4 +1,5 @@
-/* eslint-disable */
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/prop-types */
 import '../styles/globals.css';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,6 +9,7 @@ import { config } from '@fortawesome/fontawesome-svg-core';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { UserProvider } from 'contexts/Auth';
 import dynamic from 'next/dynamic';
+import Head from 'next/head';
 import lightTheme from 'styles/theme/lightTheme';
 import createEmotionCache from 'utility/createEmotionCache';
 
@@ -24,6 +26,9 @@ const MatchApp = (props) => {
       <CacheProvider value={emotionCache}>
         <ThemeProvider theme={lightTheme}>
           <CssBaseline />
+          <Head>
+            <title>TBN Asia Impact Networking Board</title>
+          </Head>
           <Component {...pageProps} />
           <DynToaster />
         </ThemeProvider>

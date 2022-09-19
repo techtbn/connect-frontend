@@ -5,7 +5,6 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import Select from '@mui/material/Select';
 import PropTypes from 'prop-types';
 
@@ -28,23 +27,15 @@ const SelectFilter = (props) => {
 
   return (
     <FormControl variant="outlined" size="small" fullWidth>
-      <InputLabel
-        id="demo-simple-select-label"
-        shrink
-        width={500}
-      >
+      <InputLabel>
         {name}
       </InputLabel>
       <Select
-        labelWidth={500}
-        labelId="demo-simple-select-label"
         multiple
         value={opts}
         onChange={handleChange}
-        input={<OutlinedInput label="Tag" />}
-        autoFocus
         label={name}
-        shrink
+        key={name}
         renderValue={(selected) => selected.map((sel) => olistMap[sel]).join(', ')}
       >
         {olist.map((item) => (
@@ -66,7 +57,7 @@ SelectFilter.propTypes = {
   olist: PropTypes.instanceOf(Array).isRequired,
   opts: PropTypes.instanceOf(Array),
   setOpts: PropTypes.func.isRequired,
-  circles: PropTypes.func
+  circles: PropTypes.bool
 };
 
 SelectFilter.defaultProps = {

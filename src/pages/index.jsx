@@ -10,13 +10,13 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { userContext } from 'contexts/Auth';
 import { useRouter } from 'next/router';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useLinkedIn } from 'react-linkedin-login-oauth2';
 
 const SignInSide = () => {
   const [disabled, setDisabled] = useState(false);
   const router = useRouter();
-  const { login, loginWithLinkedIn } = useContext(userContext);
+  const { isAuth, login, loginWithLinkedIn } = useContext(userContext);
 
   const { linkedInLogin } = useLinkedIn({
     clientId: '86lrg0924nh0k2',
@@ -39,12 +39,11 @@ const SignInSide = () => {
     login(data, router, setDisabled);
   };
 
-  /*
   useEffect(() => {
     if (isAuth) {
       router.push('/home');
     }
-  }, [isAuth]); */
+  }, [isAuth]);
 
   return (
     <Grid container component="main" sx={{ height: '100vh' }}>

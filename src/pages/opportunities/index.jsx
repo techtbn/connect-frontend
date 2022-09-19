@@ -65,7 +65,7 @@ const OpportunityView = () => {
               size="small"
               required
               fullWidth
-              label="Search Funders"
+              label="Search Opportunities"
               name="misson"
               autoFocus
               value={search}

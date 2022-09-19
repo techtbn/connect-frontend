@@ -6,6 +6,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import IndividualCard from 'components/IndividualCard';
+import InviteModal from 'components/InviteModal';
 import MainLayout from 'components/MainLayout';
 import SelectFilter from 'components/SelectFilter';
 import { individualTypes } from 'configs/individuals';
@@ -17,7 +18,8 @@ import { useDebounce } from 'use-debounce';
 
 const qs = require('qs');
 
-const FundersList = () => {
+const IndividualsList = () => {
+  const [indv, setIndv] = useState(null);
   const [extypes, setExtypes] = useState([]);
   const [commitment, setCommitment] = useState([]);
   const [search, setSearch] = useState('');
@@ -31,14 +33,16 @@ const FundersList = () => {
     search: debSearch
   }, { indices: false });
 
-  let indOpts = [];
-  const indsQuery = useSWR(
-    'industries',
+  let expOpts = [];
+  let expMap = {};
+  const expQuery = useSWR(
+    'expertise',
     () => apiList('/expertise/', '', authToken)
   );
 
-  if (indsQuery.data) {
-    indOpts = indsQuery.data.map((ind) => ({ label: ind.name, value: ind.slug }));
+  if (expQuery.data) {
+    expOpts = expQuery.data.map((exp) => ({ label: exp.name, value: exp.slug }));
+    expMap = Object.fromEntries(expQuery.data.map((exp) => [exp.slug, exp.name]));
   }
 
   let users = [];
@@ -62,7 +66,7 @@ const FundersList = () => {
             <SelectFilter name="Commitment" olist={individualTypes} opts={commitment} setOpts={setCommitment} circles />
           </Grid>
           <Grid container item xs={12} md={3} className="mt-4" order={{ xs: 3, md: 2 }}>
-            <SelectFilter name="Expertise" olist={indOpts} opts={extypes} setOpts={setExtypes} />
+            <SelectFilter name="Expertise" olist={expOpts} opts={extypes} setOpts={setExtypes} />
           </Grid>
           <Grid container item xs={12} md={3} order={{ xs: 1, md: 3 }}>
             <TextField
@@ -88,8 +92,8 @@ const FundersList = () => {
           {users.length
             ? (
               users.map((user) => (
-                <Grid container item xs={12} md={6}>
-                  <IndividualCard user={user} />
+                <Grid container item xs={12} md={6} key={user.id}>
+                  <IndividualCard user={user} expMap={expMap} setIndv={setIndv} />
                 </Grid>
               ))
             )
@@ -105,9 +109,11 @@ const FundersList = () => {
 
         </Grid>
       </Grid>
-
+      {indv
+        ? <InviteModal indv={indv} setIndv={setIndv} />
+        : null}
     </MainLayout>
   );
 };
 
-export default FundersList;
+export default IndividualsList;

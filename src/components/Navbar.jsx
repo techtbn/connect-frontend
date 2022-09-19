@@ -78,14 +78,14 @@ const NavBar = () => {
 
   return (
     <AppBar
-      clasName="app-bar"
+      className="app-bar"
       position="sticky"
-      sx={{ backgroundColor: '#76801d' }}
+      sx={{ backgroundColor: '#C4D630' }}
     >
       <Container maxWidth="lg">
         <Toolbar disableGutters>
           <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 4 }}>
-            <img src="logo-white.png" className="w-20" alt="" />
+            <img src="logo-grey.png" className="w-20" alt="" />
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -130,7 +130,7 @@ const NavBar = () => {
             </Menu>
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <img src="logo-white.png" className="w-20" alt="" />
+            <img src="logo-grey.png" className="w-20" alt="" />
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
@@ -138,7 +138,7 @@ const NavBar = () => {
                 ? (
                   <Link href={page.link} key={page.name}>
                     <Button
-                      className="text-white font-semibold"
+                      className="text-slate-800 font-semibold"
                       key={page.link}
                       onClick={handleCloseNavMenu}
                       sx={{

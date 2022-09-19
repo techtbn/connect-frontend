@@ -23,7 +23,7 @@ const individualTypes = [
 ];
 
 const individualTypesColorsMap = Object.fromEntries(
-  individualTypes.map((se) => [se.value, se.color])
+  individualTypes.map((it) => [it.value, it.color])
 );
 
 export { individualTypes, individualTypesColorsMap };

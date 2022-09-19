@@ -6,7 +6,7 @@ import ConfCards from 'components/ConfCards';
 const ConferenceApp = () => (
   <div>
     <Typography className="text-white p-2 text-center" style={{ backgroundColor: 'black' }} variant="h3" component="div">
-      Impact Networking Board
+      Impact Networking Board - Social Enterprises
     </Typography>
 
     <Box className="flex" sx={{ height: 'calc(100vh - 72px)' }}>

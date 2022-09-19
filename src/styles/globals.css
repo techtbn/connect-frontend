@@ -2,23 +2,35 @@
 @tailwind utilities;
 
 html,
-body {
+body,
+.MuiTypography-h6,
+.MuiTypography-h5,
+p, a, button, input, select, strong, option, label{
+  font-family: 'Raleway' !important;
+}
+
+html,
+body,
+p, a, button, input, select, option, label {
   padding: 0;
   margin: 0;
-  font-family: 'Maven Pro', sans-serif;
+}
+
+.MuiTypography-h6,
+.MuiTypography-h5 {
+  font-weight: 600;
 }
 
 strong {
-  font-weight: 500;
+  font-weight: 600 !important;
 }
 
 .MuiTypography-h1,
 .MuiTypography-h2,
 .MuiTypography-h3,
-.MuiTypography-h4,
-.MuiTypography-h5,
-.MuiTypography-h6 {
-  font-family: 'Patua One', cursive;
+.MuiTypography-h4 {
+  font-family: 'Roboto', "Helvetica Nueu", "Helvetica", "Sans Serif";
+  font-weight: 600;
 }
 
 a {
@@ -99,8 +111,8 @@ a {
 }
 
 footer {
-  margin-top: 64px;
-  padding-top: 32px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   border-top: thin solid rgba(0, 0, 0, 0.12);
 }
 
