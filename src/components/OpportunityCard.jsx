@@ -19,11 +19,11 @@ const OpportunityCard = (props) => {
             {opp.created}
           </Typography>
           <Typography variant="body2">
-            {opp.text}
+            {`${opp.text.substring(0, 100)}${opp.text.length > 100 ? '...' : ''} `}
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">JOIN DISCUSSION</Button>
+          <Button variant="contained">JOIN DISCUSSION</Button>
         </CardActions>
       </Card>
     </Link>

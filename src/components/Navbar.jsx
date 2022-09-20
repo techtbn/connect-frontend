@@ -27,10 +27,6 @@ const pages = [
     link: '/opportunities',
     type: 'single'
   }, {
-    name: 'Engagements',
-    link: '/engagements',
-    type: 'single'
-  }, {
     name: 'Dreams',
     link: '/dreams',
     type: 'single'
@@ -51,6 +47,10 @@ const pages = [
         link: '/funders'
       }
     ]
+  }, {
+    name: 'My Engagements',
+    link: '/engagements',
+    type: 'single'
   }
 ];
 
@@ -85,7 +85,7 @@ const NavBar = () => {
       <Container maxWidth="lg">
         <Toolbar disableGutters>
           <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 4 }}>
-            <img src="logo-grey.png" className="w-20" alt="" />
+            <img src="/logo-grey.png" className="w-20" alt="" />
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -130,7 +130,7 @@ const NavBar = () => {
             </Menu>
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <img src="logo-grey.png" className="w-20" alt="" />
+            <img src="/logo-grey.png" className="w-20" alt="" />
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (

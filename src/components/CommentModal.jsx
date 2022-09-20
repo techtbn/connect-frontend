@@ -35,7 +35,7 @@ const CommentModal = (props) => {
     formData.append('objId', objId);
     const headers = { 'Content-Type': 'multipart/form-data', Authorization: `Token ${authToken}` };
     await axios.post(`${BASE_PATH}/comments/`, formData, { headers });
-    toast.success('Comment added. Head over to Engagements to continue the conversation in depth!');
+    toast.success('Comment added. Head over to My Engagements to continue the conversation in depth!');
     setImage(null);
     setComment('');
     setVisible(false);

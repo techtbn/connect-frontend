@@ -206,7 +206,7 @@ const SocialEnterprise = () => {
               I need help with
             </Typography>
           </Divider>
-          <div className="text-center">
+          <div className="text-center mb-4">
             <p>
               Enter your first opportunity.
               <br />

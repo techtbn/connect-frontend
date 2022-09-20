@@ -73,7 +73,7 @@ const EngagementView = () => {
           {comments.length
             ? (
               comments.map((comm) => (
-                <Grid container item key={comm.id}>
+                <Grid item xs={12} md={6} key={comm.id}>
                   <EngageCard comm={comm} setEngage={setEngage} />
                 </Grid>
               ))

@@ -66,9 +66,6 @@ const OpportunityView = () => {
             {opp.text}
           </Typography>
         </Grid>
-        <Grid item className="mt-4" xs={12} md={4}>
-          Documents
-        </Grid>
       </Grid>
       {comments.length
         ? (
