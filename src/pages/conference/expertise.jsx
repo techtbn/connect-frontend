@@ -12,7 +12,7 @@ import QRCode from 'react-qr-code';
 import { apiList } from 'services/api';
 import useSWR from 'swr';
 
-const exRange = [0, 1, 2, 3, 4];
+const exRange = [0, 2, 4, 6, 8];
 
 const ConferenceApp = () => {
   const { authToken } = useContext(userContext);
