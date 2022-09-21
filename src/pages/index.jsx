@@ -25,7 +25,7 @@ const SignInSide = () => {
     redirectUri: `${typeof window === 'object' && window.location.origin}/linkedin`,
     scope: 'r_liteprofile r_emailaddress',
     onSuccess: async (code) => {
-      loginWithLinkedIn({ router, code });
+      loginWithLinkedIn({ code });
     },
     onError: (error) => {
       console.log(error);
@@ -38,7 +38,7 @@ const SignInSide = () => {
       email: event.target.email.value,
       password: event.target.password.value
     };
-    login(data, router, setDisabled);
+    login(data, setDisabled);
   };
 
   useEffect(() => {

@@ -38,7 +38,8 @@ const EngageDrawer = (props) => {
   let messages = [];
   const messagesQuery = useSWR(
     ['messages', engage.uuid],
-    () => apiList('/messages/', jformat, authToken)
+    () => apiList('/messages/', jformat, authToken),
+    { refreshInterval: 1000 }
   );
 
   if (messagesQuery.data) {

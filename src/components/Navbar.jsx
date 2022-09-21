@@ -1,3 +1,5 @@
+import { faUser } from '@fortawesome/pro-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
@@ -14,7 +16,6 @@ import MenuDropdown from 'components/MenuDropdown';
 import MobileMenuDropdown from 'components/MobileMenuDropdown';
 import { userContext } from 'contexts/Auth';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 
 const pages = [
@@ -56,7 +57,6 @@ const pages = [
 
 const NavBar = () => {
   const { logout } = useContext(userContext);
-  const router = useRouter();
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -156,7 +156,9 @@ const NavBar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Profile & Settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Ba" src="/static/images/avatar/2.jpg" />
+                <Avatar>
+                  <FontAwesomeIcon icon={faUser} />
+                </Avatar>
               </IconButton>
             </Tooltip>
             <Menu
@@ -175,7 +177,7 @@ const NavBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem key="logout" onClick={() => logout(router)}>
+              <MenuItem key="logout" onClick={() => logout()}>
                 <Typography textAlign="center">Logout</Typography>
               </MenuItem>
             </Menu>

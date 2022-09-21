@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import axios from 'axios';
 import { BASE_PATH } from 'constants/site';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useLocalStorage } from 'react-use';
@@ -9,6 +10,7 @@ import toastError from 'utility/toastErrors';
 const short = require('short-uuid');
 
 const userContext = React.createContext({ user: {} });
+const publicPages = ['/'];
 
 const UserProvider = ({ children }) => {
   // User is the name of the "data" that gets stored in context
@@ -16,13 +18,21 @@ const UserProvider = ({ children }) => {
   const [user, setUser] = useState(baseUser);
   const [authToken, setAuthToken] = useLocalStorage('tbnToken', '');
   const [mounted, setMounted] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    if (!authToken && router.query && !publicPages.includes(router.pathname)) {
+      console.log(router.asPath);
+      router.push(`/?next=${router.asPath}`);
+    }
+  }, []);
+
   // Login updates the user data with a name parameter
-  const login = async (values, router, setDisabled) => {
+  const login = async (values, setDisabled) => {
     setDisabled(true);
     try {
       const res = await axios.post(`${BASE_PATH}/auth/login/`, values);
@@ -46,7 +56,7 @@ const UserProvider = ({ children }) => {
     }
   };
 
-  const loginWithLinkedIn = async ({ router, code }) => {
+  const loginWithLinkedIn = async ({ code }) => {
     const res = await axios.post(`${BASE_PATH}/auth/linkedin/oauth`, {
       code
     });
@@ -67,7 +77,7 @@ const UserProvider = ({ children }) => {
     }
   };
 
-  const resetPasswordConfirm = async (formData, router, setDisabled) => {
+  const resetPasswordConfirm = async (formData, setDisabled) => {
     setDisabled(true);
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/password/reset/confirm/`, formData);
@@ -80,7 +90,7 @@ const UserProvider = ({ children }) => {
   };
 
   // Logout updates the user data to default
-  const logout = async (router) => {
+  const logout = async () => {
     const headers = {
       Authorization: `Token ${authToken}`
     };
@@ -90,7 +100,7 @@ const UserProvider = ({ children }) => {
     router.push('/');
   };
 
-  const register = async (formData, router, setDisabled) => {
+  const register = async (formData, setDisabled) => {
     setDisabled(true);
     try {
       const nformData = { ...formData };

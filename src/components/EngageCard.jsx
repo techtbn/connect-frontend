@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { faCalendarAlt, faComments } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Badge from '@mui/material/Badge';
@@ -6,7 +5,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
@@ -23,19 +21,19 @@ const EngageCard = (props) => {
             className="grow"
           >
             <div className="flex items-center justify-between">
-            <Link href={comm.purl}>
-              <Typography variant="h5" component="div">
-                {comm.pfield}
+              <Link href={comm.purl}>
+                <Typography variant="h5" component="div">
+                  {comm.pfield}
+                </Typography>
+              </Link>
+              <Typography
+                className="text-xs"
+                color="text.secondary"
+              >
+                <FontAwesomeIcon icon={faCalendarAlt} className="mr-2" fixedWidth />
+                {comm.created}
               </Typography>
-            </Link>
-            <Typography
-              className="text-xs"
-              color="text.secondary"
-            >
-              <FontAwesomeIcon icon={faCalendarAlt} className="mr-2" fixedWidth />
-              {comm.created}
-            </Typography>
-            </div>            
+            </div>
             <Typography className="mt-4" variant="body2">
               {comm.text}
             </Typography>
@@ -44,22 +42,23 @@ const EngageCard = (props) => {
           {setEngage
             ? (
               <>
-              <Divider className="mx-4 h-12" orientation="vertical" /><Button
-                variant="contained"
-                size="large"
-                onClick={() => setEngage(comm)}
-              >
-                <Badge badgeContent={comm.mcount} invisible={!comm.mcount} color="secondary">
-                  <FontAwesomeIcon icon={faComments} />
-                </Badge>
-              </Button>
+                <Divider className="mx-4 h-12" orientation="vertical" />
+                <Button
+                  variant="contained"
+                  size="large"
+                  onClick={() => setEngage(comm)}
+                >
+                  <Badge badgeContent={comm.mcount} invisible={!comm.mcount} color="secondary">
+                    <FontAwesomeIcon icon={faComments} />
+                  </Badge>
+                </Button>
               </>
             )
             : null}
-          
+
         </div>
       </CardContent>
-      
+
     </Card>
   );
 };
@@ -72,6 +71,5 @@ EngageCard.propTypes = {
 EngageCard.defaultProps = {
   setEngage: undefined
 };
-
 
 export default EngageCard;
