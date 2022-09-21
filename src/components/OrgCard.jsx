@@ -14,7 +14,7 @@ const OrgCard = ({ org }) => (
       <CardMedia
         component="img"
         height="140"
-        image={org.banner}
+        image={org.banner ? org.banner : `https://picsum.photos/400?random=${org.slug}-${org.id}`}
       />
       <div className="org-logo">
         <img src={org.logo} alt="" />
