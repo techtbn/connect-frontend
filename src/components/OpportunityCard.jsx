@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 const OpportunityCard = (props) => {
   const { opp } = props;
   return (
-    <Link href={`/opportunities/${opp.id}`}>
+    <Link href={`/opportunities/${opp.uuid}`}>
       <Card className="w-full">
         <CardContent>
           <Typography variant="h5" component="div">

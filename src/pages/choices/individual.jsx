@@ -57,6 +57,16 @@ const Individual = () => {
     expOpts = exQuery.data;
   }
 
+  let indOpts = [];
+  const indsQuery = useSWR(
+    'industries',
+    () => apiList('/industries/', '', authToken)
+  );
+
+  if (indsQuery.data) {
+    indOpts = indsQuery.data;
+  }
+
   return (
     <Box
       sx={{
@@ -86,7 +96,7 @@ const Individual = () => {
           <p>
             Enter the expertise you can offer and your level of commitment.
             <br />
-            You'll be update them in your profile later.
+            You can update in your profile later.
           </p>
           <Divider className="my-2">
             <Typography variant="h5" component="div">
@@ -106,6 +116,32 @@ const Individual = () => {
                           e.target.checked
                             ? [...(values.expertise || []), ex.slug]
                             : values.expertise.filter((vex) => vex !== ex.slug))}
+                      />
+                    )}
+                    label={ex.name}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          </FormGroup>
+          <Divider className="my-2">
+            <Typography variant="h5" component="div">
+              In the following Industries
+            </Typography>
+          </Divider>
+          <FormGroup>
+            <Grid container spacing={2}>
+              {indOpts.map((ex) => (
+                <Grid container item xs={6} md={3}>
+                  <FormControlLabel
+                    control={(
+                      <Checkbox
+                        name={ex.slug}
+                        checked={(values.industries || []).includes(ex.slug)}
+                        onChange={(e) => handleChange('industries',
+                          e.target.checked
+                            ? [...(values.industries || []), ex.slug]
+                            : values.industries.filter((vex) => vex !== ex.slug))}
                       />
                     )}
                     label={ex.name}

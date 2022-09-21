@@ -169,7 +169,7 @@ const Funder = () => {
             <br />
             the manner of which you are doing.
             <br />
-            You'll be update them in your profile later.
+            You can update in your profile later.
           </p>
           <Divider className="my-2">
             <Typography variant="h5" component="div">

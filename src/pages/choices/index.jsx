@@ -1,5 +1,4 @@
 import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import { userContext } from 'contexts/Auth';
 import Link from 'next/link';
@@ -46,13 +45,11 @@ const ChoicesPage = () => {
             justifyContent: 'center'
           }}
         >
-          <Link href="/choices/social-enterprise">
+          <Link href="/choices/organization">
             <div className="choice-box w-full md:w-auto font-medium bg-amber-600">
-              Social Enterprise
+              Organization
             </div>
           </Link>
-          <Divider className="hidden md:block" orientation="vertical" sx={{ borderRightWidth: 2 }} flexItem />
-          <div className="MuiDivider-root w-64 block md:hidden" style={{ border: '1px solid rgba(0, 0, 0, 0.2)' }} flexItem />
           <Link href="/choices/individual">
             <div className="choice-box w-full h-2 md:w-auto font-medium bg-teal-400">
               Individual
@@ -61,9 +58,6 @@ const ChoicesPage = () => {
               Expertise
             </div>
           </Link>
-          <Typography variant="h5" component="div">
-            or
-          </Typography>
           <Link href="/choices/funder">
             <div className="choice-box w-full md:w-auto font-medium bg-cyan-500">
               Funder

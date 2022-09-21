@@ -36,8 +36,8 @@ const pages = [
     type: 'multi',
     children: [
       {
-        name: 'Social Enterprises',
-        link: '/social-enterprises'
+        name: 'Organizations',
+        link: '/organizations'
       }, {
         name: 'divider'
       }, {

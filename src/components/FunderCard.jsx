@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 
 const FunderCard = (props) => {
   const { funder, indOptsMap } = props;
+
   return (
     <Card sx={{ display: 'flex' }} className="w-full">
       <CardMedia
