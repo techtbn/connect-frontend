@@ -9,7 +9,7 @@ import Link from 'next/link';
 import PropTypes from 'prop-types';
 
 const OrgCard = ({ org }) => (
-  <Link href={`/social-enterprises/${org.slug}/${org.id}`}>
+  <Link href={`/organizations/${org.slug}/${org.id}`}>
     <Card className="relative w-full">
       <CardMedia
         component="img"
