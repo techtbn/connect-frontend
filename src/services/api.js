@@ -4,10 +4,13 @@ import { BASE_PATH } from '../constants/site';
 
 const headers = { headers: { Authorization: '' } };
 
-const apiList = async (url, query, token) => {
+const apiList = async (url, query, token, onSuccess) => {
   headers.headers.Authorization = `Token ${token}`;
   const res = await axios.get(`${BASE_PATH}${url}?${query}`, headers);
   const { data } = res;
+  if (onSuccess) {
+    onSuccess(data);
+  }
   return data;
 };
 

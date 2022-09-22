@@ -46,12 +46,12 @@ const ChoicesPage = () => {
           }}
         >
           <Link href="/choices/organization">
-            <div className="choice-box w-full md:w-auto font-medium bg-amber-600">
+            <div className="choice-box w-full md:w-auto font-medium bg-amber-600 cursor-pointer">
               Organization
             </div>
           </Link>
           <Link href="/choices/individual">
-            <div className="choice-box w-full h-2 md:w-auto font-medium bg-teal-400">
+            <div className="choice-box w-full h-2 md:w-auto font-medium bg-teal-400 cursor-pointer">
               Individual
               <br className="hidden md:block" />
               <span className="block md:hidden">&nbsp;</span>
@@ -59,7 +59,7 @@ const ChoicesPage = () => {
             </div>
           </Link>
           <Link href="/choices/funder">
-            <div className="choice-box w-full md:w-auto font-medium bg-cyan-500">
+            <div className="choice-box w-full md:w-auto font-medium bg-cyan-500 cursor-pointer">
               Funder
             </div>
           </Link>

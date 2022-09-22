@@ -22,6 +22,8 @@ import { toast } from 'react-toastify';
 import { apiList, apiPut } from 'services/api';
 import useSWR from 'swr';
 
+const short = require('short-uuid');
+
 const Individual = () => {
   const [values, setValues] = useState({ commitment: 'starter' });
   const { authToken, user, setUser } = useContext(userContext);
@@ -40,7 +42,9 @@ const Individual = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const nuser = { ...user, ...values, initial: true };
+    const nuser = {
+      ...user, ...values, initial: true, username: short.generate(), org: ''
+    };
     await apiPut('/auth/user/', nuser, authToken, () => {});
     setUser(nuser);
     toast.success('Your profile has been updated. Feel free to head over to the opportunities to see how you can help out!');

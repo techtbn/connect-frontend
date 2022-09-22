@@ -41,7 +41,7 @@ const OrgList = () => {
   return (
     <MainLayout>
       <Typography className="mt-3" variant="h4" color="textPrimary" gutterBottom>
-        Social Enterprises
+        Organizations
       </Typography>
       <Divider />
       <Grid container spacing={2}>
