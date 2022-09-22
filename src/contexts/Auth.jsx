@@ -108,7 +108,7 @@ const UserProvider = ({ children }) => {
       nformData.password2 = formData.password1;
       await axios.post(`${BASE_PATH}/register/`, nformData);
       router.push('/');
-      toast.success('Registration successful. Please proceed to login. An email has been sent to your verify your account!');
+      toast.success('Registration successful. Please proceed to login!');
     } catch (error) {
       setDisabled(false);
       toastError(error);
