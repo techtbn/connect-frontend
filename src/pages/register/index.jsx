@@ -10,7 +10,6 @@ import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { userContext } from 'contexts/Auth';
-import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 
 const Register = () => {
@@ -19,7 +18,6 @@ const Register = () => {
     showPassword: false
   });
 
-  const router = useRouter();
   const { register } = useContext(userContext);
 
   const handleChange = (field, val) => {
@@ -28,7 +26,7 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    register(values, router, setDisabled);
+    register(values, setDisabled);
   };
 
   return (

@@ -10,7 +10,7 @@ import toastError from 'utility/toastErrors';
 const short = require('short-uuid');
 
 const userContext = React.createContext({ user: {} });
-const publicPages = ['/'];
+const publicPages = ['/', '/register'];
 
 const UserProvider = ({ children }) => {
   // User is the name of the "data" that gets stored in context
