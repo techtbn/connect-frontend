@@ -182,26 +182,28 @@ const SocialEnterprise = () => {
               My organization is
             </Typography>
           </Divider>
-          <RadioGroup
-            value={values.otype}
-            onChange={(e) => handleChange('otype', e.target.value)}
-          >
-            <div className="grid md:grid-cols-3 flex-wrap mt-2">
-              {seTypes.map((group) => (
-                <div key={group.name}>
-                  <Box sx={{ backgroundColor: group.color }} className="p-2 h-12 flex items-center justify-center text-white">
-                    {group.name}
-                  </Box>
-                  {group.children.map((opt) => (
-                    <div className="pl-4">
-                      <FormControlLabel value={opt.value} control={<Radio />} label={opt.label} size="small" />
-                    </div>
-                  ))}
-                </div>
-              ))}
+          <div>
+            <RadioGroup
+              value={values.otype}
+              onChange={(e) => handleChange('otype', e.target.value)}
+            >
+              <div className="grid md:grid-cols-3 flex-wrap mt-2">
+                {seTypes.map((group) => (
+                  <div key={group.name}>
+                    <Box sx={{ backgroundColor: group.color }} className="p-2 h-12 flex items-center justify-center text-white">
+                      {group.name}
+                    </Box>
+                    {group.children.map((opt) => (
+                      <div className="pl-4">
+                        <FormControlLabel value={opt.value} control={<Radio />} label={opt.label} size="small" />
+                      </div>
+                    ))}
+                  </div>
+                ))}
 
-            </div>
-          </RadioGroup>
+              </div>
+            </RadioGroup>
+          </div>
           <Divider className="mt-2">
             <Typography variant="h5" component="div">
               I need help with
