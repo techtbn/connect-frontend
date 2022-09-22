@@ -67,7 +67,7 @@ const ConfCards = (props) => {
           </CardContent>
           <Divider orientation="vertical" className="h-48 ml-4" />
           <div className="flex flex-col items-center justify-center mx-4">
-            <QRCode value={`${HOST_DOMAIN}/opportunities/${opp.id}`} size={180} />
+            <QRCode value={`${HOST_DOMAIN}/opportunities/${opp.uuid}`} size={180} />
           </div>
         </Card>
       ))}
