@@ -43,10 +43,11 @@ const SignInSide = () => {
 
   useEffect(() => {
     if (isAuth) {
-      if (user.initial) {
-        router.push('/home');
+      let route = '/home';
+      if (!user.initial) {
+        route = '/choices';
       }
-      router.push('/choices');
+      router.push(route);
     }
   }, [isAuth]);
 
