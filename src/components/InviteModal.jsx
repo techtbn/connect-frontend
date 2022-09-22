@@ -18,16 +18,13 @@ import { userContext } from 'contexts/Auth';
 import PropTypes from 'prop-types';
 import { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
-import { apiList, apiPost } from 'services/api';
-import useSWR from 'swr';
-
-const qs = require('qs');
+import { apiPost } from 'services/api';
 
 const InviteModal = (props) => {
   const [values, setValues] = useState({});
 
   const {
-    indv, setIndv
+    indv, opps, setIndv
   } = props;
   const { authToken } = useContext(userContext);
 
@@ -38,20 +35,6 @@ const InviteModal = (props) => {
     setValues({});
     setIndv(null);
   };
-
-  const jformat = qs.stringify({
-    otype: 'self'
-  }, { indices: false });
-
-  let opps = [];
-  const oppQuery = useSWR(
-    ['opps', 'self'],
-    () => apiList('/opportunities/', jformat, authToken)
-  );
-
-  if (oppQuery.data) {
-    opps = oppQuery.data;
-  }
 
   const handleChange = (field, val) => {
     setValues({ ...values, [field]: val });
@@ -142,7 +125,12 @@ const InviteModal = (props) => {
 
 InviteModal.propTypes = {
   indv: PropTypes.instanceOf(Object).isRequired,
-  setIndv: PropTypes.func.isRequired
+  setIndv: PropTypes.func.isRequired,
+  opps: PropTypes.instanceOf(Array)
+};
+
+InviteModal.defaultProps = {
+  opps: []
 };
 
 export default InviteModal;

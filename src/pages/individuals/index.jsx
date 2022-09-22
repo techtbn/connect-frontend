@@ -57,6 +57,17 @@ const IndividualsList = () => {
   if (usersQuery.data) {
     users = usersQuery.data;
   }
+
+  let opps = [];
+  const oppQuery = useSWR(
+    ['opps', 'self'],
+    () => apiList('/opportunities/', 'otype=self', authToken)
+  );
+
+  if (oppQuery.data) {
+    opps = oppQuery.data;
+  }
+
   return (
     <MainLayout>
       <Typography className="mt-3" variant="h4" color="textPrimary" gutterBottom>
@@ -96,7 +107,7 @@ const IndividualsList = () => {
             ? (
               users.map((user) => (
                 <Grid container item xs={12} md={6} key={user.id}>
-                  <IndividualCard user={user} expMap={expMap} setIndv={setIndv} />
+                  <IndividualCard user={user} expMap={expMap} setIndv={setIndv} opps={opps} />
                 </Grid>
               ))
             )
@@ -113,7 +124,7 @@ const IndividualsList = () => {
         </Grid>
       </Grid>
       {indv
-        ? <InviteModal indv={indv} setIndv={setIndv} />
+        ? <InviteModal indv={indv} setIndv={setIndv} opps={opps} />
         : null}
     </MainLayout>
   );

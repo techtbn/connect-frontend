@@ -122,7 +122,6 @@ const SocialEnterprise = () => {
             <Grid container item xs={12} md={6}>
               <TextField
                 type="url"
-                required
                 fullWidth
                 label="Website"
                 value={values.website}

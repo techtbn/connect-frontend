@@ -20,7 +20,6 @@ const InvitationCard = (props) => {
               variant="outlined"
               size="small"
             >
-
               <FontAwesomeIcon icon={faCheck} />
             </Button>
           </div>

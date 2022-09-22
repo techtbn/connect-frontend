@@ -11,7 +11,9 @@ import { individualTypesColorsMap } from 'configs/individuals';
 import PropTypes from 'prop-types';
 
 const IndividualCard = (props) => {
-  const { user, expMap, setIndv } = props;
+  const {
+    user, expMap, opps, setIndv
+  } = props;
   return (
     <Card sx={{ display: 'flex' }} className="w-full">
       <CardMedia
@@ -37,14 +39,20 @@ const IndividualCard = (props) => {
                 </Typography>
               </div>
             </Box>
-            <Divider orientation="vertical" className="mx-4 h-16" />
-            <Button
-              variant="contained"
-              size="large"
-              onClick={() => setIndv(user)}
-            >
-              <FontAwesomeIcon icon={faEnvelope} />
-            </Button>
+            {opps.length
+              ? (
+                <>
+                  <Divider orientation="vertical" className="mx-4 h-16" />
+                  <Button
+                    variant="contained"
+                    size="large"
+                    onClick={() => setIndv(user)}
+                  >
+                    <FontAwesomeIcon icon={faEnvelope} />
+                  </Button>
+                </>
+              )
+              : null}
 
           </div>
 
@@ -57,7 +65,12 @@ const IndividualCard = (props) => {
 IndividualCard.propTypes = {
   user: PropTypes.instanceOf(Object).isRequired,
   expMap: PropTypes.instanceOf(Object).isRequired,
+  opps: PropTypes.instanceOf(Array),
   setIndv: PropTypes.func.isRequired
+};
+
+IndividualCard.defaultProps = {
+  opps: []
 };
 
 export default IndividualCard;
