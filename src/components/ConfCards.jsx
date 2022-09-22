@@ -55,19 +55,19 @@ const ConfCards = (props) => {
               </span>
             </Typography>
 
-            <p className="text-xl">
+            <p className="text-3xl">
               {`${opp.text.substring(0, 100)}${opp.text.length > 100 ? '...' : ''}`}
             </p>
             <div className="mt-4">
-              <strong className="text-lg">
+              <strong className="text-3xl">
                 <span className="mr-2">By:</span>
                 {opp.org.name}
               </strong>
             </div>
           </CardContent>
-          <Divider orientation="vertical" className="h-40 m-l-4" />
-          <div className="flex flex-col items-center justify-center h-40 mx-4">
-            <QRCode value={`${HOST_DOMAIN}/opportunities/${opp.id}`} size={100} />
+          <Divider orientation="vertical" className="h-48 ml-4" />
+          <div className="flex flex-col items-center justify-center mx-4">
+            <QRCode value={`${HOST_DOMAIN}/opportunities/${opp.id}`} size={180} />
           </div>
         </Card>
       ))}

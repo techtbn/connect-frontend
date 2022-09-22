@@ -28,10 +28,6 @@ const pages = [
     link: '/opportunities',
     type: 'single'
   }, {
-    name: 'Dreams',
-    link: '/dreams',
-    type: 'single'
-  }, {
     name: 'Network',
     type: 'multi',
     children: [

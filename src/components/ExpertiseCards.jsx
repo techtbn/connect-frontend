@@ -67,9 +67,9 @@ const ExpertiseCards = (props) => {
                   </strong>
                 </div>
               </CardContent>
-              <Divider orientation="vertical" className="h-40 m-l-4" />
-              <div className="flex flex-col items-center justify-center h-40 mx-4">
-                <QRCode value={`${HOST_DOMAIN}/individuals/?name=${user.first_name} ${user.last_name}`} size={100} />
+              <Divider orientation="vertical" className="h-48 m-l-4" />
+              <div className="flex flex-col items-center justify-center mx-4">
+                <QRCode value={`${HOST_DOMAIN}/individuals/?name=${user.first_name} ${user.last_name}`} size={180} />
               </div>
             </Card>
           ))}

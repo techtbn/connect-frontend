@@ -94,7 +94,7 @@ const ConferenceApp = () => {
                   </CardContent>
                   <Divider orientation="vertical" className="h-40 m-l-4" />
                   <div className="flex flex-col items-center justify-center h-40 mx-4">
-                    <QRCode value={`${HOST_DOMAIN}/funders/?name=${funder.name}`} size={100} />
+                    <QRCode value={`${HOST_DOMAIN}/funders/?name=${funder.name}`} size={180} />
                   </div>
                 </Card>
               ))}
