@@ -30,6 +30,7 @@ import useSWR from 'swr';
 const SocialEnterprise = () => {
   const { user, authToken, setUser } = useContext(userContext);
   const [values, setValues] = useState({
+    website: 'https://',
     name: user.org || '',
     otype: 'impact-grants'
   });

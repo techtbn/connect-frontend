@@ -25,7 +25,7 @@ import useSWR from 'swr';
 const short = require('short-uuid');
 
 const Individual = () => {
-  const [values, setValues] = useState({ commitment: 'starter' });
+  const [values, setValues] = useState({ commitment: 'starter', linkedin: 'https://' });
   const { authToken, user, setUser } = useContext(userContext);
   const router = useRouter();
 

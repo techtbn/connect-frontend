@@ -27,6 +27,7 @@ import useSWR from 'swr';
 const Funder = () => {
   const { authToken, user, setUser } = useContext(userContext);
   const [values, setValues] = useState({
+    website: 'https://',
     name: user.org || ''
   });
   const router = useRouter();
