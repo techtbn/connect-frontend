@@ -26,20 +26,20 @@ const IndividualCard = (props) => {
           <div className="flex items-center justify-between">
             <Box className="grow">
               <Box className="flex items-center justify-between">
-                <Typography className="mb-4 flex items-center" component="div" variant="h5">
+                <Typography className="mb-2 flex items-center" component="div" variant="h5">
                   <FontAwesomeIcon className="mr-2 filter-circle" icon={faCircle} color={individualTypesColorsMap[user.commitment]} />
                   {`${user.first_name} ${user.last_name}`}
                 </Typography>
-                <span>{user.designation}</span>
               </Box>
-              <div className="float-right text-right">
+              <span>{user.org}</span>
+              <div className="float-right text-right mt-2">
                 <Typography component="div" className="flex items-center">
                   <span>{user.expertise.map((exp) => expMap[exp]).join(', ')}</span>
                   <FontAwesomeIcon className="ml-2" icon={faBriefcase} size="xs" />
                 </Typography>
               </div>
             </Box>
-            {opps.length
+            {opps.length >= 0
               ? (
                 <>
                   <Divider orientation="vertical" className="mx-4 h-16" />
