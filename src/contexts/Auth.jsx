@@ -14,8 +14,8 @@ const publicPages = ['/', '/register'];
 
 const UserProvider = ({ children }) => {
   // User is the name of the "data" that gets stored in context
-  const baseUser = { first_name: '', initial: false };
-  const [user, setUser] = useState(baseUser);
+  const baseUser = { initial: false };
+  const [user, setUser] = useLocalStorage('tbnUser', baseUser);
   const [authToken, setAuthToken] = useLocalStorage('tbnToken', '');
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
