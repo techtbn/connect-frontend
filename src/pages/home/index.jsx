@@ -1,10 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { faAngleRight } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import {
+  Col, Divider, Row, Typography
+} from 'antd';
 import EngageCard from 'components/EngageCard';
 import InvitationCard from 'components/InvitationCard';
 import MainLayout from 'components/MainLayout';
@@ -14,6 +13,8 @@ import Link from 'next/link';
 import { useContext } from 'react';
 import { apiList } from 'services/api';
 import useSWR from 'swr';
+
+const { Title } = Typography;
 
 const Home = () => {
   const { authToken, user } = useContext(userContext);
@@ -50,73 +51,79 @@ const Home = () => {
 
   return (
     <MainLayout>
-      <Typography className="mt-3" variant="h4" color="textPrimary" gutterBottom>
+      <Title className="!my-4" level={2} color="textPrimary">
         {`Welcome ${user.first_name}`}
-      </Typography>
-      <Divider />
+      </Title>
+      <Divider className="!my-0" />
 
-      <Grid container xs={12} justify="center" spacing={2}>
-        <Grid item xs={12} md={9} className="mt-4" order={{ xs: 2, md: 1 }}>
-          <Box
-            className="py-1 px-2 mb-4 w-full flex items-center justify-between"
-            sx={{ backgroundColor: '#C4D630' }}
+      <Row gutter={[8, 8]}>
+        <Col xs={{ span: 24, order: 2 }} md={{ span: 18, order: 1 }} className="mt-4">
+          <div
+            className="py-1 px-4 mb-4 w-full flex items-center justify-between"
+            style={{
+              background: 'linear-gradient(to right, #C4D630, #f9fbea)'
+            }}
           >
-            <Typography className="mb-0" variant="h5" color="textPrimary" gutterBottom>
+            <Title className="!my-2 " level={5}>
               Opportunities
-            </Typography>
+            </Title>
             <Link href="/opportunities">
-              <a>
+              <a className="flex items-center">
                 View More
                 <FontAwesomeIcon className="ml-2" icon={faAngleRight} />
               </a>
             </Link>
-          </Box>
-          <Grid className="test-cont" container item spacing={2}>
+          </div>
+          <Row gutter={8}>
             {opps.map((opp) => (
-              <Grid container item xs={12} md={6}>
+              <Col xs={24} md={12}>
                 <OpportunityCard opp={opp} />
-              </Grid>
+              </Col>
             ))}
-          </Grid>
-          <Box
-            className="py-1 px-2 my-4 w-full flex items-center justify-between"
-            sx={{ backgroundColor: '#C4D630' }}
+          </Row>
+          <div
+            className="py-1 px-4 my-4 w-full flex items-center justify-between"
+            style={{
+              background: 'linear-gradient(to right, #C4D630, #f9fbea)'
+            }}
           >
-            <Typography className="mb-0" variant="h5" color="textPrimary">
+            <Title className="!my-2 " level={5}>
               My Engagements
-            </Typography>
+            </Title>
             <Link href="/engagements">
-              <a>
+              <a className="flex items-center">
                 View More
                 <FontAwesomeIcon className="ml-2" icon={faAngleRight} />
               </a>
             </Link>
-          </Box>
+          </div>
 
-          <Grid className="test-cont" container item spacing={2}>
+          <Row gutter={[8, 8]}>
             {comments.map((comm) => (
-              <Grid container item xs={12} md={6}>
+              <Col xs={24} md={12}>
                 <EngageCard comm={comm} />
-              </Grid>
+              </Col>
             ))}
-          </Grid>
-        </Grid>
-        <Grid item xs={12} md={3} className="mt-4" order={{ xs: 1, md: 2 }}>
-          <Box
-            className="py-1 px-2 mb-4 w-full flex-start"
-            sx={{ backgroundColor: '#C4D630' }}
+          </Row>
+        </Col>
+        <Col xs={{ span: 24, order: 1 }} md={{ span: 6, order: 2 }} className="mt-4">
+          <div
+            className="py-1 px-4 mb-4 w-full flex items-center justify-between"
+            style={{
+              background: 'linear-gradient(to right, #C4D630, #f9fbea)'
+            }}
           >
-            <Typography className="mb-0" variant="h5" color="textPrimary">
+            <Title className="!my-2 " level={5}>
               Invitations
-            </Typography>
-          </Box>
-          <Grid className="test-cont" container item>
-            {invitations.map((inv) => (
-              <InvitationCard invitation={inv} />
-            ))}
-          </Grid>
-        </Grid>
-      </Grid>
+            </Title>
+          </div>
+
+          {invitations.map((inv) => (
+            <InvitationCard invitation={inv} />
+          ))}
+
+        </Col>
+      </Row>
 
     </MainLayout>
   );

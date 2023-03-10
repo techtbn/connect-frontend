@@ -1,24 +1,58 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import {
+  Button, Col,
+  Divider, Form, Row, Typography
+} from 'antd';
+import FormBuilder from 'antd-form-builder';
 import { userContext } from 'contexts/Auth';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import { useLinkedIn } from 'react-linkedin-login-oauth2';
 
-const SignInSide = () => {
+const { Text, Title } = Typography;
+
+const meta = {
+  columns: 1,
+  formItemLayout: [6, 18],
+  fields: [
+    {
+      key: 'email',
+      label: 'Email',
+      rules: [
+        {
+          type: 'email',
+          message: 'Please enter a valid email!'
+        },
+        {
+          required: true,
+          message: 'Please enter your email!'
+        }
+      ]
+    },
+    {
+      key: 'password',
+      label: 'Password',
+      widget: 'password',
+      rules: [
+        {
+          required: true,
+          message: 'Please enter your password!'
+        }
+      ]
+    }
+  ]
+};
+const LoginPage = () => {
   const [disabled, setDisabled] = useState(false);
   const router = useRouter();
   const {
     isAuth, user, login, loginWithLinkedIn
   } = useContext(userContext);
+
+  const [loginForm] = Form.useForm();
 
   const { linkedInLogin } = useLinkedIn({
     clientId: '86lrg0924nh0k2',
@@ -32,13 +66,8 @@ const SignInSide = () => {
     }
   });
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = {
-      email: event.target.email.value,
-      password: event.target.password.value
-    };
-    login(data, setDisabled);
+  const handleFinish = (values) => {
+    login(values, setDisabled);
   };
 
   useEffect(() => {
@@ -52,13 +81,13 @@ const SignInSide = () => {
   }, [isAuth]);
 
   return (
-    <Grid container component="main" sx={{ height: '100vh' }}>
-      <Grid
-        item
-        xs={false}
-        sm={4}
-        md={7}
-        sx={{
+    <div
+      className="grid grid-cols-12 sm:grid-cols-12"
+      style={{ height: '100vh' }}
+    >
+      <div
+        className="hidden sm:block sm:col-span-4 md:col-span-7"
+        style={{
           backgroundImage: 'url("/harvest.jpeg")',
           backgroundRepeat: 'no-repeat',
           backgroundColor: (t) => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
@@ -66,23 +95,18 @@ const SignInSide = () => {
           backgroundPosition: 'center'
         }}
       />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <Box
-          sx={{
-            my: 8,
-            mx: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center'
-          }}
-        >
-          <img className="w-40 mb-8" src="/logo.png" alt="" />
-          <Typography component="h1" variant="h4">
-            Login
-          </Typography>
+      <div
+        className="col-span-1 sm:col-span-8 md:col-span-5 py-12 px-4"
+      >
+        <div className="w-full flex justify-center">
+          <img className="w-40 mx-auto" src="/logo.png" alt="" />
+        </div>
+
+        <Title className="text-center">Login</Title>
+        <div className="w-full flex justify-center">
           <Button
-            className="text-white px-4 my-4"
-            sx={{
+            className="!text-white text-center px-4 my-4"
+            style={{
               '&:hover': {
                 backgroundColor: '#338ec1'
               },
@@ -93,62 +117,51 @@ const SignInSide = () => {
             <FontAwesomeIcon className="mr-2" icon={faLinkedin} />
             Sign In with LinkedIn
           </Button>
-
-          <Divider className="w-11/12">or</Divider>
-
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
+        </div>
+        <Divider className="!my-0 !mb-4">or</Divider>
+        <Form
+          form={loginForm}
+          layout="horizontal"
+          onFinish={handleFinish}
+        >
+          <FormBuilder meta={meta} form={loginForm} />
+          <Form.Item wrapperCol={{ span: 16, offset: 6 }} className="form-footer">
             <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              sx={{ mt: 3, mb: 2 }}
+              className="w-24"
+              htmlType="submit"
+              type="primary"
               disabled={disabled}
             >
+
               Sign In
             </Button>
-            <Grid container>
-              <Grid item>
-                <Link href="/register">
-                  {'Don\'t have an account? Sign Up'}
-                </Link>
-              </Grid>
-            </Grid>
+          </Form.Item>
+        </Form>
 
-            <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 5 }}>
-              {'Copyright © '}
-              <Link color="inherit" href="https://mui.com/">
-                TBN ASIA
-              </Link>
-              {' '}
-              {new Date().getFullYear()}
-              .
-            </Typography>
-          </Box>
-        </Box>
-      </Grid>
-    </Grid>
+        <Row>
+          <Col offset={6}>
+            <Link href="/register">
+              <a>
+                {'Don\'t have an account? Sign Up'}
+              </a>
+            </Link>
+          </Col>
+        </Row>
+        <Divider />
+        <div className="text-center">
+          <Text>
+            {'Copyright © '}
+            <a href="https://mui.com/">
+              TBN ASIA
+            </a>
+            {' '}
+            {new Date().getFullYear()}
+            .
+          </Text>
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default SignInSide;
+export default LoginPage;

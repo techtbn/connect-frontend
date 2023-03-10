@@ -1,21 +1,16 @@
-import Container from '@mui/material/Container';
 import PropTypes from 'prop-types';
 
 import Footer from './Footer';
-import Navbar from './Navbar';
+import MainHeader from './MainHeader';
 
 const MainLayout = (props) => {
   const { children } = props;
   return (
     <div>
-      <Navbar />
-      <Container
-        id="main-cont"
-        className="mb-12"
-        maxWidth="lg"
-      >
+      <MainHeader />
+      <div className="container mx-auto 2xl:max-w-screen-xl mb-8">
         {children}
-      </Container>
+      </div>
       <Footer />
     </div>
   );

@@ -1,3 +1,49 @@
+import Ajv from 'ajv';
+import { JSONSchemaBridge } from 'uniforms-bridge-json-schema';
+
+const ajv = new Ajv({ allErrors: true, useDefaults: true, $data: true });
+ajv.addKeyword('uniforms');
+
+const schema = {
+  title: 'Guest',
+  type: 'object',
+  properties: {
+    fullname: { type: 'string' },
+    email: { type: 'string' },
+    confirmEmail: { type: 'string', const: { $data: '1/email' } },
+    password: {
+      type: 'string',
+      uniforms: { type: 'password' }
+    },
+    confirmPassword: {
+      type: 'string',
+      const: { $data: '1/password' },
+      uniforms: { type: 'password' }
+    },
+    acceptTermsOfUse: { type: 'boolean', const: true }
+  },
+  required: [
+    'fullname',
+    'email',
+    'confirmEmail',
+    'password',
+    'confirmPassword',
+    'acceptTermsOfUse'
+  ]
+};
+
+function createValidator() {
+  const validator = ajv.compile(schema);
+
+  return (model) => {
+    validator(model);
+    return validator.errors?.length ? { details: validator.errors } : null;
+  };
+}
+
+const schemaValidator = createValidator(schema);
+const individualBridge = new JSONSchemaBridge(schema, schemaValidator);
+
 const individualTypes = [
   {
     label: 'Starter',
@@ -30,4 +76,9 @@ const individualTypesLabelMap = Object.fromEntries(
   individualTypes.map((it) => [it.value, it.label])
 );
 
-export { individualTypes, individualTypesColorsMap, individualTypesLabelMap };
+export {
+  individualBridge,
+  individualTypes,
+  individualTypesColorsMap,
+  individualTypesLabelMap
+};

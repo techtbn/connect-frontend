@@ -1,21 +1,11 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/no-unescaped-entities */
 import { faAngleLeft, faCamera } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import Divider from '@mui/material/Divider';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Grid from '@mui/material/Grid';
-import InputLabel from '@mui/material/InputLabel';
-import ListItemText from '@mui/material/ListItemText';
-import MenuItem from '@mui/material/MenuItem';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import Select from '@mui/material/Select';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import {
+  Button, Col, Divider, Form, Input, Radio,
+  Row, Select, Typography, Upload
+} from 'antd';
 import axios from 'axios';
 import { seTypes } from 'configs/ses';
 import { BASE_PATH } from 'constants/site';
@@ -27,13 +17,22 @@ import { toast } from 'react-toastify';
 import { apiList } from 'services/api';
 import useSWR from 'swr';
 
+const { Title } = Typography;
+const { Option } = Select;
+
+const normFile = (e) => {
+  if (Array.isArray(e)) {
+    return e;
+  }
+  return e?.fileList;
+};
+
 const SocialEnterprise = () => {
+  const [logo, setLogo] = useState(null);
+  const [banner, setBanner] = useState(null);
   const { user, authToken, setUser } = useContext(userContext);
-  const [values, setValues] = useState({
-    website: 'https://',
-    name: user.org || '',
-    otype: 'impact-grants'
-  });
+  const [orgForm] = Form.useForm();
+
   const router = useRouter();
 
   useEffect(() => {
@@ -53,24 +52,10 @@ const SocialEnterprise = () => {
     expOpts = exQuery.data;
   }
 
-  const handleChange = (field, val) => {
-    setValues({ ...values, [field]: val });
-  };
-
-  const handleExpertiseChange = (e) => {
-    const {
-      target: { value }
-    } = e;
-    const opts = typeof value === 'string' ? value.split(',') : value;
-    setValues({ ...values, 'opp-ex': opts });
-  };
-
-  const exMap = Object.fromEntries(expOpts.map((ex) => [ex.slug, ex.name]));
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleFinish = async (values) => {
     const formData = new FormData();
-
+    formData.append('logo', logo);
+    formData.append('banner', banner);
     Object.entries(values).forEach((pair) => {
       formData.append(pair[0], pair[1]);
     });
@@ -83,130 +68,123 @@ const SocialEnterprise = () => {
   };
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundImage: 'url("/sea.jpeg")',
-        backgroundSize: 'cover'
+    <div
+      className="min-h-screen w-full flex flex-col items-center justify-center bg-cover"
+      style={{
+        backgroundImage: 'url("/sea.jpeg")'
       }}
     >
       <div className="bg-white-60 p-8 text-black" style={{ backgroundColor: 'rgba(255,255,255,0.90)' }}>
-        <Box className="flex items-center justify-between">
+        <div className="mt-4 flex items-center justify-between">
           <div className="w-16 text-left">
             <Link href="/choices">
-              <FontAwesomeIcon icon={faAngleLeft} size="xl" />
+              <Button type="primary">
+                <FontAwesomeIcon icon={faAngleLeft} size="xl" />
+              </Button>
             </Link>
           </div>
-          <Typography className="text-center" variant="h4" component="div">
+          <Title className="!my-0 text-center" level={1}>
             Just a little more information
-          </Typography>
+          </Title>
           <div className="w-16" />
-        </Box>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 4 }}>
-          <Grid container spacing={2}>
-            <Grid container item xs={12} md={6}>
-              <TextField
-                required
-                fullWidth
-                InputLabelProps={{ shrink: true }}
+        </div>
+        <Divider />
+        <Form layout="vertical" className="mt-4" form={orgForm} onFinish={handleFinish}>
+          <Row gutter={8}>
+            <Col span={8}>
+              <Form.Item
+                className="w-full"
                 label="Organization's Name"
-                value={values.name}
-                onChange={(e) => handleChange('name', e.target.value)}
-              />
-            </Grid>
-            <Grid container item xs={12} md={6}>
-              <TextField
-                type="url"
-                fullWidth
+                name="name"
+                rules={[{ required: true, message: "Please enter your organization's name!" }]}
+              >
+                <Input placeholder="Enter name..." />
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item
+                className="w-full"
                 label="Website"
-                value={values.website}
-                onChange={(e) => handleChange('website', e.target.value)}
-              />
-            </Grid>
-          </Grid>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            label="Mission"
-            multiline
-            value={values.mission}
-            onChange={(e) => handleChange('mission', e.target.value)}
-          />
-          <Grid className="py-4" container spacing={2}>
-            <Grid container item xs={12} md={6}>
-              <Button
-                variant="contained"
-                component="label"
+                name="website"
               >
-                <FontAwesomeIcon className="mr-2" icon={faCamera} />
-                Upload Logo
-                <input
-                  type="file"
-                  accept="image/*"
-                  hidden
-                  onChange={(e) => handleChange('logo', e.target.files[0])}
-                />
-              </Button>
-              {values.logo
-                ? <span className="ml-2">{values.logo.name}</span>
-                : null }
-            </Grid>
-            <Grid container item xs={12} md={6}>
-              <Button
-                variant="contained"
-                component="label"
+                <Input type="url" placeholder="Enter website..." />
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item
+                className="w-full"
+                label="Mission"
+                name="mission"
+                rules={[{ required: true, message: "Please enter your organization's mission!" }]}
               >
-                <FontAwesomeIcon className="mr-2" icon={faCamera} />
-                Upload Banner
-                <input
-                  type="file"
+                <Input.TextArea type="url" placeholder="Enter mission..." />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={8}>
+            <Col xs={24} md={12}>
+              <Form.Item
+                name="ulogo"
+                label="Logo"
+                valuePropName="fileList"
+                getValueFromEvent={normFile}
+              >
+                <Upload
                   accept="image/*"
-                  hidden
-                  onChange={(e) => handleChange('banner', e.target.files[0])}
-                />
-              </Button>
-              {values.banner
-                ? <span className="ml-2">{values.banner.name}</span>
-                : null }
-            </Grid>
-          </Grid>
-          <Divider className="mt-2">
-            <Typography variant="h5" component="div">
+                  listType="picture"
+                  onChange={({ fileList }) => setLogo(fileList[0].originFileObj)}
+                  beforeUpload={() => false}
+                >
+                  <Button icon={<FontAwesomeIcon className="mr-2" icon={faCamera} />}>Click to upload</Button>
+                </Upload>
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={12}>
+              <Form.Item
+                name="ubanner"
+                label="Banner"
+                valuePropName="fileList"
+                getValueFromEvent={normFile}
+              >
+                <Upload
+                  accept="image/*"
+                  name="logo"
+                  listType="picture"
+                  onChange={({ fileList }) => setBanner(fileList[0].originFileObj)}
+                  beforeUpload={() => false}
+                >
+                  <Button icon={<FontAwesomeIcon className="mr-2" icon={faCamera} />}>Click to upload</Button>
+                </Upload>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Divider>
+            <Title className="!my-0" level={5} component="div">
               My organization is
-            </Typography>
+            </Title>
           </Divider>
-          <div>
-            <RadioGroup
-              value={values.otype}
-              onChange={(e) => handleChange('otype', e.target.value)}
-            >
+          <Form.Item
+            name="otype"
+          >
+            <Radio.Group>
               <div className="grid md:grid-cols-3 flex-wrap mt-2">
                 {seTypes.map((group) => (
                   <div key={group.name}>
-                    <Box sx={{ backgroundColor: group.color }} className="p-2 h-12 flex items-center justify-center text-white">
-                      {group.name}
-                    </Box>
+                    <div style={{ backgroundColor: group.color }} className="p-2 text-center">
+                      <Title level={5} className="!my-0 !text-white">{group.name}</Title>
+                    </div>
                     {group.children.map((opt) => (
-                      <div className="pl-4">
-                        <FormControlLabel value={opt.value} control={<Radio />} label={opt.label} size="small" />
-                      </div>
+                      <div className="mt-3 ml-2" key={opt.value}><Radio value={opt.value}>{opt.label}</Radio></div>
                     ))}
                   </div>
                 ))}
-
               </div>
-            </RadioGroup>
-          </div>
-          <Divider className="mt-2">
-            <Typography variant="h5" component="div">
+            </Radio.Group>
+          </Form.Item>
+          <Divider>
+            <Title className="!my-0" level={5} component="div">
               I need help with
-            </Typography>
+            </Title>
           </Divider>
           <div className="text-center mb-4">
             <p>
@@ -215,60 +193,54 @@ const SocialEnterprise = () => {
               You can update in your profile later.
             </p>
           </div>
-          <Grid container spacing={2}>
-            <Grid container item xs={12} md={6}>
-              <TextField
-                required
-                fullWidth
+          <Row gutter={8}>
+            <Col span={14}>
+              <Form.Item
+                className="w-full"
                 label="Opportunity Name"
-                value={values['opp-name']}
-                onChange={(e) => handleChange('opp-name', e.target.value)}
-              />
-            </Grid>
-            <Grid container item xs={12} md={6}>
-              <FormControl fullWidth>
-                <InputLabel>Expertise</InputLabel>
+                name="opp-name"
+                rules={[{ required: true, message: 'Please enter an opportunity!' }]}
+              >
+                <Input placeholder="Enter opportunity..." />
+              </Form.Item>
+            </Col>
+            <Col span={10}>
+              <Form.Item
+                className="w-full"
+                label="Expertise"
+                name="opp-ex"
+                rules={[{ required: true, message: 'Please enter expertise needed!' }]}
+              >
                 <Select
-                  multiple
+                  mode="multiple"
                   required
-                  label="Expertise"
-                  value={values['opp-ex'] || []}
-                  renderValue={(selected) => selected.map((sel) => exMap[sel]).join(', ')}
-                  onChange={handleExpertiseChange}
                 >
                   {expOpts.map((ex) => (
-                    <MenuItem key={ex.slug} value={ex.slug}>
-                      <Checkbox checked={(values['opp-ex'] || []).includes(ex.slug)} />
-                      <ListItemText primary={ex.name} />
-                    </MenuItem>
+                    <Option key={ex.slug} value={ex.slug}>{ex.name}</Option>
                   ))}
                 </Select>
-              </FormControl>
-            </Grid>
-          </Grid>
-          <TextField
-            className="mt-5"
-            multiline
-            rows={3}
-            required
-            fullWidth
+              </Form.Item>
+            </Col>
+          </Row>
+          <Form.Item
+            className="w-full"
             label="Details"
-            value={values['opp-details']}
-            onChange={(e) => handleChange('opp-details', e.target.value)}
-          />
+            name="opp-details"
+            rules={[{ required: true, message: 'Please enter opportunity details!' }]}
+          >
+            <Input.TextArea />
+          </Form.Item>
 
           <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            sx={{ mt: 3, mb: 2 }}
+            className="w-24 mt-4"
+            type="primary"
+            htmlType="submit"
           >
             Submit
           </Button>
-        </Box>
+        </Form>
       </div>
-    </Box>
+    </div>
   );
 };
 

@@ -16,6 +16,7 @@ import MenuDropdown from 'components/MenuDropdown';
 import MobileMenuDropdown from 'components/MobileMenuDropdown';
 import { userContext } from 'contexts/Auth';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 
 const pages = [
@@ -56,6 +57,8 @@ const NavBar = () => {
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+
+  const router = useRouter();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -173,6 +176,9 @@ const NavBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
+              <MenuItem key="logout" onClick={() => router.push('/profile-settings')}>
+                <Typography textAlign="center">Profile & Settings</Typography>
+              </MenuItem>
               <MenuItem key="logout" onClick={() => logout()}>
                 <Typography textAlign="center">Logout</Typography>
               </MenuItem>

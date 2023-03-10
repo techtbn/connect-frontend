@@ -1,10 +1,11 @@
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import { Typography } from 'antd';
 import { userContext } from 'contexts/Auth';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext, useEffect } from 'react';
 import { toast } from 'react-toastify';
+
+const { Title } = Typography;
 
 const ChoicesPage = () => {
   const { user } = useContext(userContext);
@@ -18,31 +19,20 @@ const ChoicesPage = () => {
   }, []);
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundImage: 'url("/sea.jpeg")',
-        backgroundSize: 'cover'
+    <div
+      className="h-screen w-full flex flex-col items-center justify-center bg-cover"
+      style={{
+        backgroundImage: 'url("/sea.jpeg")'
       }}
     >
       <div className="bg-white-60 p-8 text-center text-black" style={{ backgroundColor: 'rgba(255,255,255,0.9)' }}>
-        <Typography variant="h4" component="div">
+        <Title className="!mt-4" level={1}>
           Which best describes you?
-        </Typography>
-        <Box
-          className="flex-wrap md:flex-nowrap"
-          sx={{
-            marginTop: '16px',
-            backgroundColor: 'transparent',
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center'
+        </Title>
+        <div
+          className="flex-wrap md:flex-nowrap mt-4 flex items-center justify-center"
+          style={{
+            backgroundColor: 'transparent'
           }}
         >
           <Link href="/choices/organization">
@@ -71,9 +61,9 @@ const ChoicesPage = () => {
           Corporate Partner
         </div>
          */}
-        </Box>
+        </div>
       </div>
-    </Box>
+    </div>
   );
 };
 

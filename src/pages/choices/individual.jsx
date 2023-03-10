@@ -2,30 +2,30 @@
 import { faAngleLeft } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import Divider from '@mui/material/Divider';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Grid from '@mui/material/Grid';
 import ListItemText from '@mui/material/ListItemText';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import {
+  Button, Checkbox, Col, Divider, Form, Input, Radio, Row, Typography
+} from 'antd';
 import { individualTypes } from 'configs/individuals';
 import { userContext } from 'contexts/Auth';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { apiList, apiPut } from 'services/api';
 import useSWR from 'swr';
 
 const short = require('short-uuid');
 
+const { Title } = Typography;
+
 const Individual = () => {
-  const [values, setValues] = useState({ commitment: 'starter', linkedin: 'https://' });
+  // const [values, setValues] = useState({ commitment: 'starter', linkedin: 'https://' });
+  const [indForm] = Form.useForm();
   const { authToken, user, setUser } = useContext(userContext);
   const router = useRouter();
 
@@ -36,15 +36,11 @@ const Individual = () => {
     }
   }, []);
 
-  const handleChange = (field, val) => {
-    setValues({ ...values, [field]: val });
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleFinish = async (values) => {
     const nuser = {
       ...user, ...values, initial: true, username: short.generate(), org: ''
     };
+    debugger;
     await apiPut('/auth/user/', nuser, authToken, () => {});
     setUser(nuser);
     toast.success('Your profile has been updated. Feel free to head over to the opportunities to see how you can help out!');
@@ -72,138 +68,118 @@ const Individual = () => {
   }
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundImage: 'url("/sea.jpeg")',
-        backgroundSize: 'cover'
+    <div
+      className="min-h-screen w-full flex flex-col items-center justify-center bg-cover"
+      style={{
+        backgroundImage: 'url("/sea.jpeg")'
       }}
     >
-      <div className="bg-white-60 p-8 text-center text-black" style={{ backgroundColor: 'rgba(255,255,255,0.90)' }}>
-        <Box className="flex items-center justify-between">
+      <div className="bg-white-60 p-8 text-black" style={{ backgroundColor: 'rgba(255,255,255,0.90)' }}>
+        <div className="mt-4 flex items-center justify-between">
           <div className="w-16 text-left">
             <Link href="/choices">
-              <FontAwesomeIcon icon={faAngleLeft} size="xl" />
+              <Button type="primary">
+                <FontAwesomeIcon icon={faAngleLeft} size="xl" />
+              </Button>
             </Link>
           </div>
-          <Typography className="text-center" variant="h4" component="div">
+          <Title className="!my-0 text-center" level={1}>
             Just a little more information
-          </Typography>
+          </Title>
           <div className="w-16" />
-        </Box>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-          <p>
+        </div>
+
+        <Form layout="vertical" className="mt-4" form={indForm} onFinish={handleFinish}>
+          <p className="text-center">
             Enter the expertise you can offer and your level of commitment.
             <br />
             You can update in your profile later.
           </p>
-          <Divider className="my-2">
-            <Typography variant="h5" component="div">
+          <Divider>
+            <Title className="!my-0" level={5} component="div">
               I can help with
-            </Typography>
+            </Title>
           </Divider>
-          <FormGroup>
-            <Grid container spacing={2}>
-              {expOpts.map((ex) => (
-                <Grid container item xs={6} md={3}>
-                  <FormControlLabel
-                    control={(
-                      <Checkbox
-                        name={ex.slug}
-                        checked={(values.expertise || []).includes(ex.slug)}
-                        onChange={(e) => handleChange('expertise',
-                          e.target.checked
-                            ? [...(values.expertise || []), ex.slug]
-                            : values.expertise.filter((vex) => vex !== ex.slug))}
-                      />
-                    )}
-                    label={ex.name}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </FormGroup>
-          <Divider className="my-2">
-            <Typography variant="h5" component="div">
-              In the following Industries
-            </Typography>
-          </Divider>
-          <FormGroup>
-            <Grid container spacing={2}>
-              {indOpts.map((ex) => (
-                <Grid container item xs={6} md={3}>
-                  <FormControlLabel
-                    control={(
-                      <Checkbox
-                        name={ex.slug}
-                        checked={(values.industries || []).includes(ex.slug)}
-                        onChange={(e) => handleChange('industries',
-                          e.target.checked
-                            ? [...(values.industries || []), ex.slug]
-                            : values.industries.filter((vex) => vex !== ex.slug))}
-                      />
-                    )}
-                    label={ex.name}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </FormGroup>
-          <Divider className="my-2">
-            <Typography variant="h5" component="div">
-              Which best describes you
-            </Typography>
-          </Divider>
-          <RadioGroup
-            value={values.commitment}
-            onChange={(e) => handleChange('commitment', e.target.value)}
+          <Form.Item
+            name="expertise"
+            rules={[{ required: true, message: 'Please select your expertise !' }]}
           >
-            <Grid container spacing={2}>
-              {individualTypes.map((opt) => (
-                <Grid container item xs={12} md={3}>
-                  <FormControlLabel
-                    value={opt.value}
-                    control={<Radio />}
-                    label={
-                      <ListItemText className="text-left md:w-full" primary={opt.label} secondary={opt.extra} />
-                    }
-                    secondary={opt.extra}
-                    size="small"
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </RadioGroup>
-          <TextField
-            type="url"
-            className="md:max-w-md my-4"
-            required
-            fullWidth
-            label="LinkedIn Profile URL"
-            value={values.linkedin}
-            onChange={(e) => handleChange('linkedin', e.target.value)}
-          />
+            <Checkbox.Group>
+              <Row gutter={8}>
+                {expOpts.map((ex) => (
+                  <Col className="mt-3" xs={12} md={6}>
+                    <Checkbox value={ex.slug}>{ex.name}</Checkbox>
+                  </Col>
+                ))}
+              </Row>
+            </Checkbox.Group>
+          </Form.Item>
+          <Divider>
+            <Title className="!my-0" level={5} component="div">
+              In the following industries
+            </Title>
+          </Divider>
+          <Form.Item
+            name="industries"
+            rules={[{ required: true, message: 'Please select the industries you can help with!' }]}
+          >
+            <Checkbox.Group>
+              <Row gutter={8}>
+                {indOpts.map((ind) => (
+                  <Col className="mt-3" xs={12} md={6}>
+                    <Checkbox value={ind.slug}>{ind.name}</Checkbox>
+                  </Col>
+                ))}
+              </Row>
+            </Checkbox.Group>
+          </Form.Item>
+          <Divider>
+            <Title className="!my-0" level={5} component="div">
+              The following best describes me
+            </Title>
+          </Divider>
+          <Form.Item
+            name="otype"
+            rules={[{ required: true, message: 'Please select your commitement level!' }]}
+          >
+            <Radio.Group
+              name="commitment"
+            >
+              <Row gutter={8}>
+                {individualTypes.map((opt) => (
+                  <Col className="mt-3" xs={24} md={6}>
+                    <Radio value={opt.value}>
+                      <div>
+                        <strong>{opt.label}</strong>
+                        <p>{opt.extra}</p>
+                      </div>
+                    </Radio>
+                  </Col>
+                ))}
+              </Row>
+            </Radio.Group>
+          </Form.Item>
+          <div className="mt-6">
+            <Form.Item
+              className="w-80"
+              name="linkedin"
+              label="LinkedIn Profile URL"
+            >
+              <Input type="url" />
+            </Form.Item>
+          </div>
           <div>
             <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className="md:max-w-sm"
-              sx={{ mt: 3, mb: 2 }}
-              disabled={!(values.expertise || []).length}
+              className="w-24 mt-4"
+              type="primary"
+              htmlType="submit"
             >
               Submit
             </Button>
           </div>
-        </Box>
+        </Form>
       </div>
-    </Box>
+    </div>
   );
 };
 

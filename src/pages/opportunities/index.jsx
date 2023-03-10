@@ -1,10 +1,8 @@
 import { faExclamationTriangle, faSearch } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import MainLayout from 'components/MainLayout';
 import OpportunityCard from 'components/OpportunityCard';
 import SelectFilter from 'components/SelectFilter';
@@ -13,6 +11,9 @@ import { useContext, useState } from 'react';
 import { apiList } from 'services/api';
 import useSWR from 'swr';
 import { useDebounce } from 'use-debounce';
+import { Divider, Typography } from 'antd';
+
+const { Title } = Typography;
 
 const qs = require('qs');
 
@@ -50,10 +51,10 @@ const OpportunityView = () => {
 
   return (
     <MainLayout>
-      <Typography className="mt-3" variant="h4" color="textPrimary" gutterBottom>
-        Opportunities
-      </Typography>
-      <Divider />
+      <Title className="!my-4" level={2} color="textPrimary">
+      Opportunities
+      </Title>
+      <Divider className="!my-0" />
       <Grid container spacing={2}>
         <Grid container item xs={12} spacing={2} className="justify-end">
           <Grid container item xs={12} md={3} className="mt-4">

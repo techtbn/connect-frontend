@@ -2,17 +2,15 @@
 import { faAngleLeft, faCamera } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import Divider from '@mui/material/Divider';
 import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid';
-import InputLabel from '@mui/material/InputLabel';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import {
+  Button, Checkbox, Col, Divider, Form, Input, Row, Typography, Upload
+} from 'antd';
 import axios from 'axios';
 import { fundingTypes } from 'configs/partners';
 import { BASE_PATH } from 'constants/site';
@@ -24,12 +22,19 @@ import { toast } from 'react-toastify';
 import { apiList } from 'services/api';
 import useSWR from 'swr';
 
+const { Title } = Typography;
+
+const normFile = (e) => {
+  if (Array.isArray(e)) {
+    return e;
+  }
+  return e?.fileList;
+};
+
 const Funder = () => {
+  const [logo, setLogo] = useState(null);
   const { authToken, user, setUser } = useContext(userContext);
-  const [values, setValues] = useState({
-    website: 'https://',
-    name: user.org || ''
-  });
+  const [funderForm] = Form.useForm();
   const router = useRouter();
 
   useEffect(() => {
@@ -49,34 +54,10 @@ const Funder = () => {
     indOpts = indsQuery.data;
   }
 
-  const handleIndustryChange = (e) => {
-    const {
-      target: { value }
-    } = e;
-    const opts = (typeof value === 'string' ? value.split(',') : value);
-    setValues({ ...values, industries: opts });
-  };
-
-  const inMap = Object.fromEntries(indOpts.map((ind) => [ind.slug, ind.name]));
-
-  const handleVehiclesChange = (e) => {
-    const {
-      target: { value }
-    } = e;
-    const opts = (typeof value === 'string' ? value.split(',') : value);
-    setValues({ ...values, vehicles: opts });
-  };
-
-  const vehMap = Object.fromEntries(fundingTypes.map((ind) => [ind.value, ind.label]));
-
-  const handleChange = (field, val) => {
-    setValues({ ...values, [field]: val });
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleFinish = async (values) => {
     const formData = new FormData();
 
+    formData.append('logo', logo);
     Object.entries(values).forEach((pair) => {
       formData.append(pair[0], pair[1]);
     });
@@ -87,153 +68,138 @@ const Funder = () => {
     toast.success('Your organization has been added and is pending our review. Our staff will be in contact soon!');
     router.push('/home');
   };
+
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundImage: 'url("/sea.jpeg")',
-        backgroundSize: 'cover'
+    <div
+      className="min-h-screen w-full flex flex-col items-center justify-center bg-cover"
+      style={{
+        backgroundImage: 'url("/sea.jpeg")'
       }}
     >
-      <div className="bg-white-60 p-8 text-center text-black" style={{ backgroundColor: 'rgba(255,255,255,0.90)' }}>
-        <Box className="flex items-center justify-between">
+      <div className="bg-white-60 p-8 text-black" style={{ backgroundColor: 'rgba(255,255,255,0.90)' }}>
+        <div className="mt-4 flex items-center justify-between">
           <div className="w-16 text-left">
             <Link href="/choices">
-              <FontAwesomeIcon icon={faAngleLeft} size="xl" />
+              <Button type="primary">
+                <FontAwesomeIcon icon={faAngleLeft} size="xl" />
+              </Button>
             </Link>
           </div>
-          <Typography className="text-center" variant="h4" component="div">
+          <Title className="!my-0 text-center" level={1}>
             Just a little more information
-          </Typography>
+          </Title>
           <div className="w-16" />
-        </Box>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 4 }}>
-          <Grid container spacing={2}>
-            <Grid container item xs={12} md={6}>
-              <TextField
-                required
-                fullWidth
-                InputLabelProps={{ shrink: true }}
+        </div>
+
+        <Form layout="vertical" className="mt-4" form={funderForm} onFinish={handleFinish}>
+          <Row gutter={8}>
+            <Col xs={24} md={8}>
+              <Form.Item
                 label="Organization's Name"
-                value={values.name}
-                onChange={(e) => handleChange('name', e.target.value)}
-              />
-            </Grid>
-            <Grid container item xs={12} md={6}>
-              <TextField
-                type="url"
-                required
-                fullWidth
-                label="Website"
-                value={values.website}
-                onChange={(e) => handleChange('website', e.target.value)}
-              />
-            </Grid>
-          </Grid>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            label="Organization's Introduction"
-            multiline
-            value={values.description}
-            onChange={(e) => handleChange('description', e.target.value)}
-          />
-          <Grid className="py-4" container spacing={2}>
-            <Grid container item xs={12} md={12}>
-              <Button
-                variant="contained"
-                component="label"
+                name="name"
+                rules={[{ required: true, message: "Please enter your organization's name!" }]}
               >
-                <FontAwesomeIcon className="mr-2" icon={faCamera} />
-                Upload Logo
-                <input
-                  type="file"
+                <Input placeholder="Enter name..." />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item
+                className="w-full"
+                label="Website"
+                name="website"
+                rules={[{ required: true, message: "Please enter your organization's website!" }]}
+              >
+                <Input type="url" placeholder="Enter website..." />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item
+                className="w-full"
+                label="Organization's Introduction"
+                name="description"
+                rules={[{ required: true, message: "Please enter your organization's introduction!" }]}
+              >
+                <Input.TextArea placeholder="Enter introduction..." />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={8}>
+            <Col xs={24} md={12}>
+              <Form.Item
+                name="ulogo"
+                label="Logo"
+                valuePropName="fileList"
+                getValueFromEvent={normFile}
+              >
+                <Upload
                   accept="image/*"
-                  hidden
-                  onChange={(e) => handleChange('logo', e.target.files[0])}
-                />
-              </Button>
-              {values.logo
-                ? <span className="ml-2">{values.logo.name}</span>
-                : null }
-            </Grid>
-          </Grid>
+                  listType="picture"
+                  onChange={({ fileList }) => setLogo(fileList[0].originFileObj)}
+                  beforeUpload={() => false}
+                >
+                  <Button icon={<FontAwesomeIcon className="mr-2" icon={faCamera} />}>Click to upload</Button>
+                </Upload>
+              </Form.Item>
+            </Col>
+          </Row>
           <Divider />
-          <p>
+          <p className="text-center">
             Enter the industries you want to invest in and
             <br />
             the manner of which you are doing.
             <br />
             You can update in your profile later.
           </p>
-          <Divider className="my-2">
-            <Typography variant="h5" component="div">
+          <Divider>
+            <Title className="!my-0" level={5} component="div">
               I invest in
-            </Typography>
+            </Title>
           </Divider>
-          <FormControl fullWidth>
-            <InputLabel>Industries</InputLabel>
-            <Select
-              multiple
-              required
-              label="Industries"
-              value={values.industries || []}
-              renderValue={(selected) => selected.map((sel) => inMap[sel]).join(', ')}
-              onChange={handleIndustryChange}
-            >
-              {indOpts.map((ind) => (
-                <MenuItem key={ind.slug} value={ind.slug}>
-                  <Checkbox checked={(values.industries || []).includes(ind.slug)} />
-                  <ListItemText primary={ind.name} />
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <Divider className="my-2">
-            <Typography variant="h5" component="div">
+          <Form.Item
+            name="industries"
+            rules={[{ required: true, message: 'Please select the industries you invest in!' }]}
+          >
+            <Checkbox.Group>
+              <Row gutter={8}>
+                {indOpts.map((ind) => (
+                  <Col className="mt-3" xs={12} md={6}>
+                    <Checkbox value={ind.slug}>{ind.name}</Checkbox>
+                  </Col>
+                ))}
+              </Row>
+            </Checkbox.Group>
+          </Form.Item>
+          <Divider>
+            <Title className="!my-0" level={5} component="div">
               In the following manner
-            </Typography>
+            </Title>
           </Divider>
-          <FormControl fullWidth>
-            <InputLabel>Funding Manner</InputLabel>
-            <Select
-              multiple
-              required
-              label="Funding Manner"
-              value={values.vehicles || []}
-              renderValue={(selected) => selected.map((sel) => vehMap[sel]).join(', ')}
-              onChange={handleVehiclesChange}
-            >
-              {fundingTypes.map((ft) => (
-                <MenuItem key={ft.value} value={ft.value}>
-                  <Checkbox checked={(values.vehicles || []).includes(ft.value)} />
-                  <ListItemText primary={ft.label} />
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <Form.Item
+            name="vehicles"
+            rules={[{ required: true, message: 'Please select the vehicles you invest with!' }]}
+          >
+            <Checkbox.Group className="w-full">
+              <Row gutter={8} className="w-full">
+                {fundingTypes.map((ft) => (
+                  <Col className="mt-3" xs={12} md={6}>
+                    <Checkbox value={ft.value}>{ft.label}</Checkbox>
+                  </Col>
+                ))}
+              </Row>
+            </Checkbox.Group>
+          </Form.Item>
           <div>
             <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className="md:max-w-sm"
-              sx={{ mt: 3, mb: 2 }}
-              disabled={!(values.industries || []).length && !(values.vehicles || []).length}
+              className="w-24 mt-4"
+              type="primary"
+              htmlType="submit"
             >
               Submit
             </Button>
           </div>
-        </Box>
+        </Form>
       </div>
-    </Box>
+    </div>
   );
 };
 
